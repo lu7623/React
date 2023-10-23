@@ -1,7 +1,45 @@
 import React, { Component } from 'react';
 import { Pokemon } from './types';
 
-export default class Results extends Component<{ pokemon: Pokemon }> {
+interface ResProps {
+  pokemon: Pokemon;
+}
+interface ResState {
+  desc: string;
+}
+export default class Results extends Component<ResProps, ResState> {
+  constructor(props: ResProps) {
+    super(props);
+
+    this.state = {
+      desc: '',
+    };
+  }
+
+  componentDidMount() {
+    fetch(this.props.pokemon.species.url)
+      .then((response) => response.json())
+      .then((data) => {
+        const description = data.flavor_text_entries
+          .filter((item) => {
+            return item.language.name === 'en';
+          })[0]
+          .flavor_text.replace(/[^a-zA-Z é . , ']/g, ' ');
+        this.setState({ desc: description });
+      });
+  }
+  componentDidUpdate() {
+    fetch(this.props.pokemon.species.url)
+      .then((response) => response.json())
+      .then((data) => {
+        const description = data.flavor_text_entries
+          .filter((item) => {
+            return item.language.name === 'en';
+          })[0]
+          .flavor_text.replace(/[^a-zA-Z é . , ']/g, ' ');
+        this.setState({ desc: description });
+      });
+  }
   render() {
     return (
       <div>
@@ -13,6 +51,7 @@ export default class Results extends Component<{ pokemon: Pokemon }> {
           alt=""
           width={140}
         />
+        <p>{this.state.desc}</p>
       </div>
     );
   }

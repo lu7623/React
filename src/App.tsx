@@ -10,7 +10,7 @@ interface AppState {
   search: string;
 }
 export default class App extends Component<AppProps, AppState> {
-  constructor(props) {
+  constructor(props: AppProps) {
     super(props);
 
     this.state = {
@@ -20,8 +20,6 @@ export default class App extends Component<AppProps, AppState> {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  apiBasePath = 'https://pokeapi.co/api/v2/';
 
   /* componentDidMount() {
     fetch('https://pokeapi.co/api/v2/pokemon/1')
@@ -39,7 +37,7 @@ export default class App extends Component<AppProps, AppState> {
   };
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ search: event.target.value });
+    this.setState({ search: event.target.value.toLowerCase().trim() });
   }
 
   render() {
