@@ -23,17 +23,17 @@ export default class App extends Component<AppProps, AppState> {
 
   apiBasePath = 'https://pokeapi.co/api/v2/';
 
-  componentDidMount() {
+  /* componentDidMount() {
     fetch('https://pokeapi.co/api/v2/pokemon/1')
       .then((response) => response.json())
       .then((name) => this.setState({ pokemons: name.results }));
-  }
+  }*/
 
   handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const p = await fetch('https://pokeapi.co/api/v2/pokemon/1').then(
-      (response) => response.json()
-    );
+    const p = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${this.state.search}`
+    ).then((response) => response.json());
     this.setState({ pokemons: p });
     console.log(this.state.pokemons);
   };
