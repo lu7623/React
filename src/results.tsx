@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pokemon } from './types';
+import { Pokemon, PokemonDesc } from './types';
 
 interface ResProps {
   pokemon: Pokemon;
@@ -20,7 +20,7 @@ export default class Results extends Component<ResProps, ResState> {
       .then((response) => response.json())
       .then((data) => {
         const description = data.flavor_text_entries
-          .filter((item) => {
+          .filter((item: PokemonDesc) => {
             return item.language.name === 'en';
           })[0]
           .flavor_text.replace(/[^a-zA-Z é . , ']/g, ' ');
@@ -35,20 +35,22 @@ export default class Results extends Component<ResProps, ResState> {
   }
   render() {
     return (
-      <div>
-        <h1>{this.props.pokemon.name}</h1>
+      <div className="card">
+        <h2>{this.props.pokemon.name.toUpperCase()}</h2>
         <h3>
-          Type:{' '}
+          Type:
           {this.props.pokemon.types.map((type) => (
-            <span>{type.type.name} </span>
+            <span className="type" key={type.type.name}>
+              {type.type.name}
+            </span>
           ))}
         </h3>
-        <h2>Height: {this.props.pokemon.height / 10} m</h2>
-        <h2>Weight: {this.props.pokemon.weight / 10} kg</h2>
+        <h4 className="size">Height: {this.props.pokemon.height / 10} m</h4>
+        <h4 className="size">Weight: {this.props.pokemon.weight / 10} kg</h4>
         <img
           src={this.props.pokemon.sprites.front_default}
-          alt=""
-          width={160}
+          alt="pokemon"
+          width={150}
         />
         <p>{this.state.desc}</p>
       </div>

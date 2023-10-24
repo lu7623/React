@@ -58,8 +58,14 @@ export default class App extends Component<AppProps, AppState> {
             />
             <button type="submit">Search</button>
           </form>
+          <p>
+            You can type pokemon name (e.g. pikachu or bulbasaur) or number
+            1-1010
+          </p>
+          {this.state.pokemons ? (
+            <Results pokemon={this.state.pokemons} />
+          ) : null}
         </div>
-        {this.state.pokemons ? <Results pokemon={this.state.pokemons} /> : null}
       </>
     );
   }

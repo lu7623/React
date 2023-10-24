@@ -26,7 +26,6 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -46,9 +45,10 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 20px;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #b96817;
 }
 button:focus,
 button:focus-visible {
@@ -66,4 +66,8 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+h4 {
+  margin: 0;
 }

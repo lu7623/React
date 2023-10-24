@@ -26,3 +26,9 @@ export interface PokemonTypeItem {
   slot: number;
   type: PokemonType;
 }
+
+export interface PokemonDesc {
+  language: {
+    name: string;
+  };
+}
