@@ -21,23 +21,26 @@ export default class App extends Component<AppProps, AppState> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  /* componentDidMount() {
-    fetch('https://pokeapi.co/api/v2/pokemon/1')
-      .then((response) => response.json())
-      .then((name) => this.setState({ pokemons: name.results }));
-  }*/
+  componentDidMount() {
+    const searchText = localStorage.getItem('search');
+    if (searchText) {
+      this.setState({ search: searchText });
+    }
+  }
 
   handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const searchStr = this.state.search.toLowerCase().trim();
     const p = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${this.state.search}`
+      `https://pokeapi.co/api/v2/pokemon/${searchStr}`
     ).then((response) => response.json());
     this.setState({ pokemons: p });
-    console.log(this.state.pokemons);
   };
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ search: event.target.value.toLowerCase().trim() });
+    const searchText = event.target.value;
+    this.setState({ search: searchText });
+    localStorage.setItem('search', event.target.value);
   }
 
   render() {
@@ -50,6 +53,7 @@ export default class App extends Component<AppProps, AppState> {
               type="text"
               name="find"
               id="find"
+              value={this.state.search}
               onChange={(e) => this.handleChange(e)}
             />
             <button type="submit">Search</button>
