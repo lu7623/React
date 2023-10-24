@@ -8,6 +8,7 @@ interface AppProps {}
 interface AppState {
   pokemons: Pokemon | null;
   search: string;
+  hasError: boolean;
 }
 export default class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
@@ -16,9 +17,11 @@ export default class App extends Component<AppProps, AppState> {
     this.state = {
       pokemons: null,
       search: '',
+      hasError: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.error = this.error.bind(this);
   }
 
   componentDidMount() {
@@ -42,8 +45,11 @@ export default class App extends Component<AppProps, AppState> {
     this.setState({ search: searchText });
     localStorage.setItem('search', event.target.value);
   }
-
+  error() {
+    this.setState({ hasError: true });
+  }
   render() {
+    if (this.state.hasError) throw new Error();
     return (
       <>
         <div className="App">
@@ -66,6 +72,7 @@ export default class App extends Component<AppProps, AppState> {
             <Results pokemon={this.state.pokemons} />
           ) : null}
         </div>
+        <button onClick={this.error}>Error</button>
       </>
     );
   }
