@@ -3,12 +3,14 @@ import './App.css';
 import { Component } from 'react';
 import Results from './results';
 import { Pokemon } from './types';
+import Loading from './loading';
 
 interface AppProps {}
 interface AppState {
   pokemons: Pokemon | null;
   search: string;
   hasError: boolean;
+  isLoading: boolean;
 }
 export default class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
@@ -18,6 +20,7 @@ export default class App extends Component<AppProps, AppState> {
       pokemons: null,
       search: '',
       hasError: false,
+      isLoading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,11 +36,13 @@ export default class App extends Component<AppProps, AppState> {
 
   handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    this.setState({ isLoading: true });
     const searchStr = this.state.search.toLowerCase().trim();
     const p = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${searchStr}`
     ).then((response) => response.json());
     this.setState({ pokemons: p });
+    this.setState({ isLoading: false });
   };
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -53,7 +58,7 @@ export default class App extends Component<AppProps, AppState> {
     return (
       <>
         <div className="App">
-          <h1>Pokemon Database</h1>
+          <h1>Pokemon</h1>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
@@ -68,7 +73,9 @@ export default class App extends Component<AppProps, AppState> {
             You can type pokemon name (e.g. pikachu or bulbasaur) or number
             1-1010
           </p>
-          {this.state.pokemons ? (
+          {this.state.isLoading ? (
+            <Loading />
+          ) : this.state.pokemons ? (
             <Results pokemon={this.state.pokemons} />
           ) : null}
         </div>
