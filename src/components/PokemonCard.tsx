@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Pokemon, PokemonDesc } from './types';
+import { Component } from 'react';
+import { Pokemon, PokemonDesc } from '../types';
 
 interface ResProps {
   pokemon: Pokemon;
@@ -7,7 +7,7 @@ interface ResProps {
 interface ResState {
   desc: string;
 }
-export default class Results extends Component<ResProps, ResState> {
+export default class PokemonCard extends Component<ResProps, ResState> {
   constructor(props: ResProps) {
     super(props);
 

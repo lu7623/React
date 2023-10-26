@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import { Component } from 'react';
-import Results from './results';
-import { Pokemon } from './types';
-import Loading from './loading';
+
+import { Pokemon } from '../types';
+import Loading from './Loading';
+import PokemonCard from './PokemonCard';
 
 interface AppProps {}
 interface AppState {
@@ -76,7 +77,7 @@ export default class App extends Component<AppProps, AppState> {
           {this.state.isLoading ? (
             <Loading />
           ) : this.state.pokemons ? (
-            <Results pokemon={this.state.pokemons} />
+            <PokemonCard pokemon={this.state.pokemons} />
           ) : null}
         </div>
         <button onClick={this.error}>Error</button>
