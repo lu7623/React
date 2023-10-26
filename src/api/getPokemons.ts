@@ -1,5 +1,12 @@
 import { Pokemon } from './types';
 
+export async function getPokemon(searchStr: string) {
+  const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchStr}`).then(
+    (response) => response.json()
+  );
+  return p;
+}
+
 export async function getPokemons(urls: string[]) {
   const res: Pokemon[] = [];
   for (const url of urls) {

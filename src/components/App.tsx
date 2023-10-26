@@ -2,13 +2,14 @@ import React from 'react';
 import './App.css';
 import { Component } from 'react';
 
-import { Pokemon } from '../types';
+import { Pokemon } from '../api/types';
 import Loading from './Loading';
 import PokemonCard from './PokemonCard';
+import { getPokemon } from '../api/getPokemons';
 
 interface AppProps {}
 interface AppState {
-  pokemons: Pokemon | null;
+  pokemon: Pokemon | null;
   search: string;
   hasError: boolean;
   isLoading: boolean;
@@ -18,7 +19,7 @@ export default class App extends Component<AppProps, AppState> {
     super(props);
 
     this.state = {
-      pokemons: null,
+      pokemon: null,
       search: '',
       hasError: false,
       isLoading: false,
@@ -39,10 +40,8 @@ export default class App extends Component<AppProps, AppState> {
     e.preventDefault();
     this.setState({ isLoading: true });
     const searchStr = this.state.search.toLowerCase().trim();
-    const p = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${searchStr}`
-    ).then((response) => response.json());
-    this.setState({ pokemons: p });
+    const p = await getPokemon(searchStr);
+    this.setState({ pokemon: p });
     this.setState({ isLoading: false });
   };
 
@@ -76,8 +75,8 @@ export default class App extends Component<AppProps, AppState> {
           </p>
           {this.state.isLoading ? (
             <Loading />
-          ) : this.state.pokemons ? (
-            <PokemonCard pokemon={this.state.pokemons} />
+          ) : this.state.pokemon ? (
+            <PokemonCard pokemon={this.state.pokemon} />
           ) : null}
         </div>
         <button onClick={this.error}>Error</button>

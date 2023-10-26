@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Pokemon, PokemonDesc } from '../types';
+import { Pokemon, PokemonDesc } from '../api/types';
 
 interface ResProps {
   pokemon: Pokemon;
