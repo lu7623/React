@@ -11,7 +11,7 @@ interface AppProps {}
 interface AppState {
   pokemon: Pokemon | null;
   search: string;
-  hasError: boolean;
+  error?: Error;
   isLoading: boolean;
 }
 export default class App extends Component<AppProps, AppState> {
@@ -21,40 +21,46 @@ export default class App extends Component<AppProps, AppState> {
     this.state = {
       pokemon: null,
       search: '',
-      hasError: false,
       isLoading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.error = this.error.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
 
-  componentDidMount() {
+  async fetchData(searchStr: string) {
+    this.setState({ isLoading: true });
+
+    const p = await getPokemon(searchStr);
+    this.setState({ pokemon: p });
+    this.setState({ isLoading: false });
+  }
+
+  async componentDidMount() {
     const searchText = localStorage.getItem('search');
     if (searchText) {
       this.setState({ search: searchText });
+      await this.fetchData(searchText);
     }
   }
 
   handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.setState({ isLoading: true });
     const searchStr = this.state.search.toLowerCase().trim();
-    const p = await getPokemon(searchStr);
-    this.setState({ pokemon: p });
-    this.setState({ isLoading: false });
+    await this.fetchData(searchStr);
   };
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const searchText = event.target.value;
     this.setState({ search: searchText });
-    localStorage.setItem('search', event.target.value);
+    if (searchText) localStorage.setItem('search', event.target.value);
   }
   error() {
-    this.setState({ hasError: true });
+    this.setState({ error: new Error('Some error') });
   }
   render() {
-    if (this.state.hasError) throw new Error();
+    if (this.state.error) throw this.state.error;
     return (
       <>
         <div className="App">

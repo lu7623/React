@@ -1,8 +1,10 @@
 import { Pokemon } from './types';
 
+const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
+
 export async function getPokemon(searchStr: string) {
-  const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchStr}`).then(
-    (response) => response.json()
+  const p = await fetch(`${BASE_URL}${searchStr}`).then((response) =>
+    response.json()
   );
   return p;
 }
