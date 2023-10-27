@@ -4,12 +4,12 @@ import { Component } from 'react';
 
 import { Pokemon } from '../api/types';
 import Loading from './Loading';
-import PokemonCard from './PokemonCard';
 import { getPokemon } from '../api/getPokemons';
+import PokemonsList from './PokemonsList';
 
 interface AppProps {}
 interface AppState {
-  pokemon: Pokemon | null;
+  pokemon: Pokemon[];
   search: string;
   error?: Error;
   isLoading: boolean;
@@ -19,7 +19,7 @@ export default class App extends Component<AppProps, AppState> {
     super(props);
 
     this.state = {
-      pokemon: null,
+      pokemon: [],
       search: '',
       isLoading: false,
     };
@@ -33,7 +33,7 @@ export default class App extends Component<AppProps, AppState> {
     this.setState({ isLoading: true });
 
     const p = await getPokemon(searchStr);
-    this.setState({ pokemon: p });
+    this.setState({ pokemon: [p] });
     this.setState({ isLoading: false });
   }
 
@@ -82,7 +82,7 @@ export default class App extends Component<AppProps, AppState> {
           {this.state.isLoading ? (
             <Loading />
           ) : this.state.pokemon ? (
-            <PokemonCard pokemon={this.state.pokemon} />
+            <PokemonsList pokemons={this.state.pokemon} />
           ) : null}
         </div>
         <button onClick={this.error}>Error</button>
