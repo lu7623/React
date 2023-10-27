@@ -4,7 +4,7 @@ import { Component } from 'react';
 
 import { Pokemon } from '../api/types';
 import Loading from './Loading';
-import { getPokemon } from '../api/getPokemons';
+import { getPokemon, getPokemons } from '../api/getPokemons';
 import PokemonsList from './PokemonsList';
 
 interface AppProps {}
@@ -31,9 +31,14 @@ export default class App extends Component<AppProps, AppState> {
 
   async fetchData(searchStr: string) {
     this.setState({ isLoading: true });
+    if (searchStr === '') {
+      const p = await getPokemons();
+      this.setState({ pokemon: p });
+    } else {
+      const p = await getPokemon(searchStr);
+      this.setState({ pokemon: [p] });
+    }
 
-    const p = await getPokemon(searchStr);
-    this.setState({ pokemon: [p] });
     this.setState({ isLoading: false });
   }
 
@@ -42,6 +47,8 @@ export default class App extends Component<AppProps, AppState> {
     if (searchText) {
       this.setState({ search: searchText });
       await this.fetchData(searchText);
+    } else {
+      await this.fetchData('');
     }
   }
 

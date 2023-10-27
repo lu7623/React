@@ -14,8 +14,7 @@ export async function getPokemons() {
   const urls = p.results.map((res: PokemonType) => res.url);
   const res: Pokemon[] = [];
   for (const url of urls) {
-    const promise = fetch(url);
-    promise
+    await fetch(url)
       .then((response) => {
         if (response.ok) {
           const promise2 = response.json();
@@ -26,7 +25,7 @@ export async function getPokemons() {
       })
       .catch((error) => {
         console.log(error);
-        throw new Error();
+        throw new Error(error);
       });
   }
   return res;
