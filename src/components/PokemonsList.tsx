@@ -17,9 +17,13 @@ export default class PokemonsList extends Component<ListProps, ListState> {
   render() {
     return (
       <div className="cardContainer">
-        {this.props.pokemons.map((p) => (
-          <PokemonCard pokemon={p} />
-        ))}
+        {this.props.pokemons.length === 0 ? (
+          <p>No results found</p>
+        ) : (
+          this.props.pokemons.map((p) => (
+            <PokemonCard key={p.name} pokemon={p} />
+          ))
+        )}
       </div>
     );
   }

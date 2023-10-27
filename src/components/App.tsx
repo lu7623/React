@@ -31,24 +31,27 @@ export default class App extends Component<AppProps, AppState> {
 
   async fetchData(searchStr: string) {
     this.setState({ isLoading: true });
-    if (searchStr === '') {
-      const p = await getPokemons();
-      this.setState({ pokemon: p });
-    } else {
-      const p = await getPokemon(searchStr);
-      this.setState({ pokemon: [p] });
+    try {
+      if (searchStr === '') {
+        const p = await getPokemons();
+        this.setState({ pokemon: p });
+      } else {
+        const p = await getPokemon(searchStr);
+        this.setState({ pokemon: [p] });
+      }
+    } catch {
+      this.setState({ pokemon: [] });
     }
-
     this.setState({ isLoading: false });
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const searchText = localStorage.getItem('search');
     if (searchText) {
       this.setState({ search: searchText });
-      await this.fetchData(searchText);
+      this.fetchData(searchText);
     } else {
-      await this.fetchData('');
+      this.fetchData('');
     }
   }
 
@@ -61,17 +64,19 @@ export default class App extends Component<AppProps, AppState> {
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const searchText = event.target.value;
     this.setState({ search: searchText });
-    if (searchText) localStorage.setItem('search', event.target.value);
+    localStorage.setItem('search', event.target.value);
   }
+
   error() {
     this.setState({ error: new Error('Some error') });
   }
+
   render() {
     if (this.state.error) throw this.state.error;
     return (
       <>
         <div className="App">
-          <h1>Pokemon</h1>
+          <h1>Pokemon App</h1>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
@@ -88,11 +93,13 @@ export default class App extends Component<AppProps, AppState> {
           </p>
           {this.state.isLoading ? (
             <Loading />
-          ) : this.state.pokemon ? (
+          ) : (
             <PokemonsList pokemons={this.state.pokemon} />
-          ) : null}
+          )}
         </div>
-        <button onClick={this.error}>Error</button>
+        <button className="error" onClick={this.error}>
+          Error
+        </button>
       </>
     );
   }

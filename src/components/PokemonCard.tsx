@@ -15,6 +15,7 @@ export default class PokemonCard extends Component<ResProps, ResState> {
       desc: '',
     };
   }
+
   getDescription() {
     fetch(this.props.pokemon.species.url)
       .then((response) => response.json())
@@ -30,9 +31,7 @@ export default class PokemonCard extends Component<ResProps, ResState> {
   componentDidMount() {
     this.getDescription();
   }
-  componentDidUpdate() {
-    this.getDescription();
-  }
+
   render() {
     return (
       <div className="card">
