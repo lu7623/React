@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { Component } from 'react';
-
 import { Pokemon } from '../api/types';
 import Loading from './Loading';
 import { getPokemon, getPokemons } from '../api/getPokemons';
@@ -68,7 +67,7 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   error() {
-    this.setState({ error: new Error('Some error') });
+    this.setState({ error: new Error('Some generated error') });
   }
 
   render() {

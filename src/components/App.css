@@ -3,9 +3,9 @@
   text-align: center;
   min-height: 100vh;
   display: flex;
-flex-direction: column;
-align-items: center;
-justify-content:space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .header {
@@ -21,9 +21,9 @@ justify-content:space-between;
 .Logo {
   background-image: url(/logo.png);
   width: 400px;
-  height: 100px;
+  height: 120px;
   background-size: contain;
-background-repeat: no-repeat;
+  background-repeat: no-repeat;
 }
 
 .Img {
@@ -31,7 +31,7 @@ background-repeat: no-repeat;
   width: 400px;
   height: 150px;
   background-size: contain;
-background-repeat: no-repeat;
+  background-repeat: no-repeat;
 }
 
 p {
@@ -55,13 +55,13 @@ p {
 }
 
 .App {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content:space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.cardContainer{
+.cardContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

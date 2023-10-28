@@ -5,7 +5,7 @@ interface Props {
 }
 
 interface State {
-  hasError: boolean;
+  error: Error | null;
 }
 
 class ErrorBoundary extends Component<Props, State> {
@@ -13,30 +13,32 @@ class ErrorBoundary extends Component<Props, State> {
     super(props);
 
     this.state = {
-      hasError: false,
+      error: null,
     };
     this.rerender = this.rerender.bind(this);
   }
 
   public static getDerivedStateFromError(): State {
-    return { hasError: true };
+    return { error: new Error() };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
+    this.setState({ error: error });
   }
 
   rerender() {
-    this.setState({ hasError: false });
+    this.setState({ error: null });
   }
 
   public render() {
-    if (this.state.hasError) {
+    if (this.state.error) {
       return (
-        <>
+        <div>
           <h1>Oh no... there was an error!</h1>
+          <p>{this.state.error.message}</p>
           <button onClick={this.rerender}>Go back</button>
-        </>
+        </div>
       );
     }
 
