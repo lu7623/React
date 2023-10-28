@@ -6,6 +6,7 @@ import { Pokemon } from '../api/types';
 import Loading from './Loading';
 import { getPokemon, getPokemons } from '../api/getPokemons';
 import PokemonsList from './PokemonsList';
+import SearchForm from './SearchForm';
 
 interface AppProps {}
 interface AppState {
@@ -59,12 +60,11 @@ export default class App extends Component<AppProps, AppState> {
     e.preventDefault();
     const searchStr = this.state.search.toLowerCase().trim();
     await this.fetchData(searchStr);
+    localStorage.setItem('search', this.state.search);
   };
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const searchText = event.target.value;
-    this.setState({ search: searchText });
-    localStorage.setItem('search', event.target.value);
+  handleChange(str: string) {
+    this.setState({ search: str });
   }
 
   error() {
@@ -76,21 +76,21 @@ export default class App extends Component<AppProps, AppState> {
     return (
       <>
         <div className="App">
-          <h1>Pokemon App</h1>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              name="find"
-              id="find"
-              value={this.state.search}
-              onChange={(e) => this.handleChange(e)}
-            />
-            <button type="submit">Search</button>
-          </form>
-          <p>
-            You can type pokemon name (e.g. pikachu or bulbasaur) or number
-            1-1010
-          </p>
+          <div className="header">
+            <div className="Logo"></div>
+            <form onSubmit={this.handleSubmit}>
+              <SearchForm
+                callback={this.handleChange}
+                searchText={this.state.search}
+              />
+              <button type="submit">Search</button>
+              <p>
+                You can type pokemon name (e.g. pikachu or bulbasaur) or number
+                1-1010
+              </p>
+            </form>
+            <div className="Img"></div>
+          </div>
           {this.state.isLoading ? (
             <Loading />
           ) : (
