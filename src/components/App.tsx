@@ -1,105 +1,63 @@
-import React from 'react';
 import './App.css';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Pokemon } from '../api/types';
 import Loading from './Loading';
 import { getPokemon, getPokemons } from '../api/getPokemons';
 import PokemonsList from './PokemonsList';
 import SearchForm from './SearchForm';
 
-interface AppProps {}
-interface AppState {
-  pokemon: Pokemon[];
-  search: string;
-  error?: Error;
-  isLoading: boolean;
-}
-export default class App extends Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
+export default function App() {
+  const searchText = localStorage.getItem('search');
+  const [search, setSearch] = useState(searchText ? searchText : '');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error>();
 
-    this.state = {
-      pokemon: [],
-      search: '',
-      isLoading: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.error = this.error.bind(this);
-    this.fetchData = this.fetchData.bind(this);
-  }
-
-  async fetchData(searchStr: string) {
-    this.setState({ isLoading: true });
+  async function fetchData(searchStr: string) {
+    setIsLoading(true);
     try {
       if (searchStr === '') {
         const p = await getPokemons();
-        this.setState({ pokemon: p });
+        setPokemons(p);
       } else {
         const p = await getPokemon(searchStr);
-        this.setState({ pokemon: [p] });
+        setPokemons([p]);
       }
     } catch {
-      this.setState({ pokemon: [] });
+      setPokemons([]);
     }
-    this.setState({ isLoading: false });
+    setIsLoading(false);
   }
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
-  componentDidMount() {
-    const searchText = localStorage.getItem('search');
-    if (searchText) {
-      this.setState({ search: searchText });
-      this.fetchData(searchText);
-    } else {
-      this.fetchData('');
-    }
-  }
+  useEffect(() => {
+    fetchData(search);
+  }, [search]);
 
-  handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const searchStr = this.state.search.toLowerCase().trim();
-    await this.fetchData(searchStr);
-    localStorage.setItem('search', this.state.search);
+  const handleForm = (str: string) => {
+    setSearch(str);
+    localStorage.setItem('search', str);
+    const searchStr = str.toLowerCase().trim();
+    fetchData(searchStr);
   };
 
-  handleChange(str: string) {
-    this.setState({ search: str });
-  }
+  const showError = () => {
+    setError(new Error('Some generated error'));
+  };
+  if (error) throw error;
+  return (
+    <>
+      <div className="App">
+        <div className="header">
+          <div className="Logo"></div>
+          <SearchForm callback={handleForm} searchText={search} />
 
-  error() {
-    this.setState({ error: new Error('Some generated error') });
-  }
-
-  render() {
-    if (this.state.error) throw this.state.error;
-    return (
-      <>
-        <div className="App">
-          <div className="header">
-            <div className="Logo"></div>
-            <form onSubmit={this.handleSubmit}>
-              <SearchForm
-                callback={this.handleChange}
-                searchText={this.state.search}
-              />
-              <button type="submit">Search</button>
-              <p>
-                You can type pokemon name (e.g. pikachu or bulbasaur) or number
-                1-1010
-              </p>
-            </form>
-            <div className="Img"></div>
-          </div>
-          {this.state.isLoading ? (
-            <Loading />
-          ) : (
-            <PokemonsList pokemons={this.state.pokemon} />
-          )}
+          <div className="Img"></div>
         </div>
-        <button className="error" onClick={this.error}>
-          Error
-        </button>
-      </>
-    );
-  }
+        {isLoading ? <Loading /> : <PokemonsList pokemons={pokemons} />}
+      </div>
+      <button className="error" onClick={showError}>
+        Error
+      </button>
+    </>
+  );
 }
