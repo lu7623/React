@@ -32,3 +32,8 @@ export interface PokemonDesc {
     name: string;
   };
 }
+
+export interface PokemonRequest {
+  q: string;
+  pokemons: Pokemon[];
+}
