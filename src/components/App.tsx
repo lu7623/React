@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Pokemon } from '../api/types';
 import Loading from './Loading';
 import { getPokemon, getPokemons } from '../api/getPokemons';
-import PokemonsList from './PokemonsList';
+import PokemonsList from '../routes/components/PokemonsList';
 import SearchForm from './SearchForm';
 
 export default function App() {

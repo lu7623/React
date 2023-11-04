@@ -1,6 +1,6 @@
-import { DetailsRequest, Pokemon, PokemonDesc } from '../api/types';
+import { Pokemon, PokemonDesc, PokemonRequest } from '../api/types';
 import { getPokemon } from '../api/getPokemons';
-import { useNavigation } from 'react-router-dom';
+import { useLoaderData, useNavigation } from 'react-router-dom';
 import Loading from '../components/Loading';
 
 async function getDescription(pokemon: Pokemon): Promise<string> {
@@ -27,43 +27,50 @@ export async function pokemonLoader({ request }: { request: Request }) {
   }
 }
 
-export function PokemonDetails({ pokemon, desc }: DetailsRequest) {
+export function PokemonDetails() {
+  const { details } = useLoaderData() as PokemonRequest;
   const navigation = useNavigation();
   return (
     <>
       {navigation.state === 'loading' ? (
         <Loading />
       ) : (
-        <div className="details">
-          <h2>{pokemon.name.toUpperCase()}</h2>
-          <h3>
-            Type:
-            {pokemon.types.map((type) => (
-              <span className="type" key={type.type.name}>
-                {type.type.name}
-              </span>
-            ))}
-          </h3>
-          <h4 className="size">Height: {pokemon.height / 10} m</h4>
-          <h4 className="size">Weight: {pokemon.weight / 10} kg</h4>
-          <div style={{ display: 'flex' }}>
-            <img
-              src={pokemon.sprites.front_default}
-              alt="pokemon"
-              width={150}
-            />
-            <img src={pokemon.sprites.back_default} alt="pokemon" width={150} />
+        details && (
+          <div className="details">
+            <h2>{details.pokemon.name.toUpperCase()}</h2>
+            <h3>
+              Type:
+              {details.pokemon.types.map((type) => (
+                <span className="type" key={type.type.name}>
+                  {type.type.name}
+                </span>
+              ))}
+            </h3>
+            <h4 className="size">Height: {details.pokemon.height / 10} m</h4>
+            <h4 className="size">Weight: {details.pokemon.weight / 10} kg</h4>
+            <div style={{ display: 'flex' }}>
+              <img
+                src={details.pokemon.sprites.front_default}
+                alt="pokemon"
+                width={150}
+              />
+              <img
+                src={details.pokemon.sprites.back_default}
+                alt="pokemon"
+                width={150}
+              />
+            </div>
+            <p>{details.desc ? details.desc : ''}</p>
+            <h3>
+              Stats:
+              {details.pokemon.stats.map((stat) => (
+                <div className="type" key={stat.stat.name}>
+                  {stat.stat.name} - {stat.base_stat}
+                </div>
+              ))}
+            </h3>
           </div>
-          <p>{desc ? desc : ''}</p>
-          <h3>
-            Stats:
-            {pokemon.stats.map((stat) => (
-              <div className="type" key={stat.stat.name}>
-                {stat.stat.name} - {stat.base_stat}
-              </div>
-            ))}
-          </h3>
-        </div>
+        )
       )}
     </>
   );

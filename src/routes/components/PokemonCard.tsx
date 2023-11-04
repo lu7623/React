@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pokemon, PokemonDesc } from '../api/types';
+import { Pokemon, PokemonDesc } from '../../api/types';
 import { useSearchParams } from 'react-router-dom';
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {

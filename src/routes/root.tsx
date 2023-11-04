@@ -4,7 +4,7 @@ import { Pokemon } from '../api/types';
 import { getPokemon, getPokemons } from '../api/getPokemons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
-import PokemonsList from '../components/PokemonsList';
+import PokemonsList from './components/PokemonsList';
 
 export function Root() {
   const searchText = localStorage.getItem('search');
@@ -38,8 +38,7 @@ export function Root() {
     const searchStr = str.toLowerCase().trim();
     fetchData(searchStr);
   };
-  //const navigation = useNavigation();
-  //const { pokemons } = useLoaderData() as PokemonRequest;
+
   const showError = () => {
     setError(new Error('Some generated error'));
   };

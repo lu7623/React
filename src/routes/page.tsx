@@ -5,7 +5,7 @@ import {
   useNavigation,
   useSearchParams,
 } from 'react-router-dom';
-import PokemonCard from '../components/PokemonCard';
+import PokemonCard from './components/PokemonCard';
 import { getDetails, getPokemon, getPokemonPage } from '../api/getPokemons';
 import { PokemonDetails } from './Details';
 import Loading from './components/Loading';
@@ -66,9 +66,7 @@ export function PokemonPage() {
               pokemons.map((p) => <PokemonCard key={p.name} pokemon={p} />)
             )}
           </div>
-          {details?.pokemon ? (
-            <PokemonDetails desc={details.desc} pokemon={details.pokemon} />
-          ) : null}
+          {details?.pokemon ? <PokemonDetails /> : null}
         </div>
       )}
     </>
