@@ -1,7 +1,7 @@
 import { Pokemon, PokemonDesc, PokemonRequest } from '../api/types';
 import { getPokemon } from '../api/getPokemons';
 import { useLoaderData, useNavigation } from 'react-router-dom';
-import Loading from '../components/Loading';
+import Loading from './components/Loading';
 
 async function getDescription(pokemon: Pokemon): Promise<string> {
   const desc = fetch(pokemon.species.url)

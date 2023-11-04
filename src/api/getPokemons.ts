@@ -36,7 +36,7 @@ export async function getPokemonPage(
   qty: number
 ): Promise<Pokemon[]> {
   const p = await fetch(
-    `${BASE_URL}?limit=${qty}&offset=${(pageNum - 1) * qty}`
+    `${BASE_URL}?limit=${qty + 1}&offset=${(pageNum - 1) * qty}`
   ).then((response) => response.json());
   const urls = p.results.map((res: PokemonType) => res.url);
   const res: Pokemon[] = [];

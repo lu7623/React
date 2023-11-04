@@ -9,6 +9,7 @@ import PokemonCard from './components/PokemonCard';
 import { getDetails, getPokemon, getPokemonPage } from '../api/getPokemons';
 import { PokemonDetails } from './Details';
 import Loading from './components/Loading';
+import Pagination from './pagination';
 
 export async function pageLoader({ request, params }: LoaderFunctionArgs) {
   const pageNum = params.pageId;
@@ -42,6 +43,7 @@ export function PokemonPage() {
   const navigation = useNavigation();
   return (
     <>
+      <Pagination />
       {navigation.state === 'loading' ? (
         <Loading />
       ) : (

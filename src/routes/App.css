@@ -40,8 +40,8 @@ p {
 
 .card {
   padding: 0.5em 1em;
-  width: 300px;
-  height: 430px;
+  width: 250px;
+  min-height: 430px;
   background-color: rgba(247, 222, 184, 0.773);
   border-radius: 10px;
   margin: 10px;
@@ -76,4 +76,44 @@ p {
 .details {
   width: 50vw;
   background-color: rgba(247, 222, 184, 0.773);
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+ label {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 600;
+    background-color: rgba(247, 222, 184, 0.773);
+      padding: 5px 8px;
+      margin: 10px;
+      vertical-align: middle;
+      cursor: pointer;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+      text-align: center;
+  }
+
+  input[type="radio"]:checked +label {
+    background-color: rgba(216, 109, 2, 0.773);
+  }
+ 
+.pageCheck {
+  display: flex;
+  align-items: center;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }
