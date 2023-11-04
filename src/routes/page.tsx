@@ -1,17 +1,10 @@
 import { PokemonRequest } from '../api/types';
-import {
-  useLoaderData,
-  LoaderFunctionArgs,
-  useNavigation,
-  useSearchParams,
-} from 'react-router-dom';
-import PokemonCard from './components/PokemonCard';
+import { useLoaderData, LoaderFunctionArgs } from 'react-router-dom';
 import { getDetails, getPokemon, getPokemonPage } from '../api/getPokemons';
-import { PokemonDetails } from './Details';
-import Loading from './components/Loading';
-import Pagination from './pagination';
+import Pagination from './components/pagination';
+import PokemonsList from './components/PokemonsList';
 
-export async function pageLoader({ request, params }: LoaderFunctionArgs) {
+export async function detailsLoader({ request, params }: LoaderFunctionArgs) {
   const pageNum = params.pageId;
   const url = new URL(request.url);
   const q = url.searchParams.get('qty');
@@ -38,39 +31,11 @@ export async function pageLoader({ request, params }: LoaderFunctionArgs) {
 }
 
 export function PokemonPage() {
-  const { pokemons, details } = useLoaderData() as PokemonRequest;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigation = useNavigation();
+  const { pokemons } = useLoaderData() as PokemonRequest;
   return (
     <>
       <Pagination />
-      {navigation.state === 'loading' ? (
-        <Loading />
-      ) : (
-        <div style={{ display: 'flex' }}>
-          <div
-            className="cardContainer"
-            onClick={() => {
-              if (searchParams.has('details')) {
-                searchParams.delete('details');
-                setSearchParams(searchParams);
-              }
-            }}
-            style={
-              details?.pokemon
-                ? { width: '50%', opacity: '40%' }
-                : { width: '100%' }
-            }
-          >
-            {pokemons.length === 0 ? (
-              <p>No results found</p>
-            ) : (
-              pokemons.map((p) => <PokemonCard key={p.name} pokemon={p} />)
-            )}
-          </div>
-          {details?.pokemon ? <PokemonDetails /> : null}
-        </div>
-      )}
+      <PokemonsList pokemons={pokemons} />
     </>
   );
 }

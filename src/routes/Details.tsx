@@ -1,35 +1,15 @@
-import { Pokemon, PokemonDesc, PokemonRequest } from '../api/types';
-import { getPokemon } from '../api/getPokemons';
-import { useLoaderData, useNavigation } from 'react-router-dom';
+import { PokemonRequest } from '../api/types';
+import {
+  useLoaderData,
+  useNavigation,
+  useSearchParams,
+} from 'react-router-dom';
 import Loading from './components/Loading';
-
-async function getDescription(pokemon: Pokemon): Promise<string> {
-  const desc = fetch(pokemon.species.url)
-    .then((response) => response.json())
-    .then((data) => {
-      const description = data.flavor_text_entries
-        .filter((item: PokemonDesc) => {
-          return item.language.name === 'en';
-        })[0]
-        .flavor_text.replace(/[^a-zA-Z é . , ']/g, ' ');
-      return description;
-    });
-  return desc;
-}
-
-export async function pokemonLoader({ request }: { request: Request }) {
-  const url = new URL(request.url);
-  const q = url.searchParams.get('details');
-  if (q) {
-    const pokemon = await getPokemon(q);
-    const desc = await getDescription(pokemon);
-    return { pokemon, q, desc };
-  }
-}
 
 export function PokemonDetails() {
   const { details } = useLoaderData() as PokemonRequest;
   const navigation = useNavigation();
+  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <>
       {navigation.state === 'loading' ? (
@@ -37,6 +17,15 @@ export function PokemonDetails() {
       ) : (
         details && (
           <div className="details">
+            <div
+              className="close"
+              onClick={() => {
+                if (searchParams.has('details')) {
+                  searchParams.delete('details');
+                  setSearchParams(searchParams);
+                }
+              }}
+            ></div>
             <h2>{details.pokemon.name.toUpperCase()}</h2>
             <h3>
               Type:
@@ -52,23 +41,23 @@ export function PokemonDetails() {
               <img
                 src={details.pokemon.sprites.front_default}
                 alt="pokemon"
-                width={150}
+                width={200}
               />
               <img
                 src={details.pokemon.sprites.back_default}
                 alt="pokemon"
-                width={150}
+                width={200}
               />
             </div>
             <p>{details.desc ? details.desc : ''}</p>
-            <h3>
-              Stats:
+            <h3>Stats: </h3>
+            <div className="stat">
               {details.pokemon.stats.map((stat) => (
-                <div className="type" key={stat.stat.name}>
+                <div key={stat.stat.name}>
                   {stat.stat.name} - {stat.base_stat}
                 </div>
               ))}
-            </h3>
+            </div>
           </div>
         )
       )}

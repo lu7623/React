@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import ErrorPage from './routes/ErrorPage';
-import { PokemonPage, pageLoader } from './routes/page';
-import { Root } from './routes/root';
+import { detailsLoader, PokemonPage } from './routes/page';
+import { pageLoader, Root } from './routes/root';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
       {
         path: 'page/:pageId',
         element: <PokemonPage />,
-        loader: pageLoader,
+        loader: detailsLoader,
       },
     ],
   },

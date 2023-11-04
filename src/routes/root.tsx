@@ -1,10 +1,23 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { Pokemon } from '../api/types';
-import { getPokemon, getPokemons } from '../api/getPokemons';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { getPokemon, getPokemonPage, getPokemons } from '../api/getPokemons';
+import { LoaderFunctionArgs, Outlet, useNavigate } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
 import PokemonsList from './components/PokemonsList';
+
+export async function pageLoader({ request, params }: LoaderFunctionArgs) {
+  const pageNum = params.pageId;
+  const url = new URL(request.url);
+  const q = url.searchParams.get('qty');
+  if (q) {
+    const pokemons = await getPokemonPage(Number(pageNum), Number(q));
+    return { pokemons };
+  } else {
+    const pokemons = await getPokemonPage(Number(pageNum), 20);
+    return { pokemons };
+  }
+}
 
 export function Root() {
   const searchText = localStorage.getItem('search');

@@ -39,6 +39,7 @@ p {
 }
 
 .card {
+  cursor: pointer;
   padding: 0.5em 1em;
   width: 250px;
   min-height: 430px;
@@ -72,36 +73,42 @@ p {
   background-color: rgba(227, 34, 34, 0.327);
 }
 
-
 .details {
   width: 50vw;
   background-color: rgba(247, 222, 184, 0.773);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  top: 0;
+  left: 50vw;
+  position:absolute;
 }
 
-input[type="radio"] {
+input[type='radio'] {
   display: none;
 }
 
- label {
-    color: #333;
-    font-family: Arial, sans-serif;
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: 600;
-    background-color: rgba(247, 222, 184, 0.773);
-      padding: 5px 8px;
-      margin: 10px;
-      vertical-align: middle;
-      cursor: pointer;
-      border-radius: 5px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-      text-align: center;
-  }
+label {
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+  background-color: rgba(247, 222, 184, 0.773);
+  padding: 5px 8px;
+  margin: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+  text-align: center;
+}
 
-  input[type="radio"]:checked +label {
-    background-color: rgba(216, 109, 2, 0.773);
-  }
- 
+input[type='radio']:checked + label {
+  background-color: rgba(216, 109, 2, 0.773);
+}
+
 .pageCheck {
   display: flex;
   align-items: center;
@@ -116,4 +123,26 @@ input[type="radio"] {
   display: flex;
   justify-content: space-around;
   width: 100%;
+}
+
+.stat {
+  width: 400px;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  font-size: 22px;
+  font-weight: 600;
+  background-color: rgb(252, 158, 81);
+}
+
+.close {
+  background-image: url('/close.png');
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+  align-self: self-end;
+  margin: 10px 30px 0 0;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+  cursor: pointer;
 }
