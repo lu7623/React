@@ -16,7 +16,6 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
@@ -35,7 +34,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+a, button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -47,10 +46,10 @@ button {
   transition: border-color 0.25s;
   margin: 20px;
 }
-button:hover {
+a:hover, button:hover {
   border-color: #b96817;
 }
-button:focus,
+a:hover, button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
@@ -60,9 +59,7 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
+  a,
   button {
     background-color: #f9f9f9;
   }

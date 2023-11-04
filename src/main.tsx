@@ -1,18 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
 import './index.css';
-
-import { Root, loader as rootLoader } from './routes/root';
-import ErrorPage from './routes/errorPage';
+import ErrorPage from './routes/ErrorPage';
+import { PokemonPage, pageLoader } from './routes/page';
+import { Root } from './routes/root';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    loader: rootLoader,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'page/:pageId',
+        element: <PokemonPage />,
+        loader: pageLoader,
+      },
+    ],
   },
 ]);
 

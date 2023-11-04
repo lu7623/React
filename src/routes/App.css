@@ -71,3 +71,9 @@ p {
 .error {
   background-color: rgba(227, 34, 34, 0.327);
 }
+
+
+.details {
+  width: 50vw;
+  background-color: rgba(247, 222, 184, 0.773);
+}

@@ -6,6 +6,7 @@ export interface Pokemon {
   sprites: PokemonSprites;
   species: PokemonSpecies;
   types: PokemonTypeItem[];
+  stats: PokemonStatItem[];
 }
 
 export interface PokemonType {
@@ -20,6 +21,7 @@ export interface PokemonSpecies {
 
 export interface PokemonSprites {
   front_default: string;
+  back_default: string;
 }
 
 export interface PokemonTypeItem {
@@ -36,4 +38,25 @@ export interface PokemonDesc {
 export interface PokemonRequest {
   q: string;
   pokemons: Pokemon[];
+  details?: DetailsRequest;
+}
+
+export interface DetailsRequest {
+  pokemon: Pokemon;
+  desc?: string;
+}
+
+export type PageParams = {
+  pokemonId: string;
+};
+
+export interface PokemonStatItem {
+  base_stat: number;
+  effort: number;
+  stat: Stat;
+}
+
+export interface Stat {
+  name: string;
+  url: string;
 }

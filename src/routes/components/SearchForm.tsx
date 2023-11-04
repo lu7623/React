@@ -1,23 +1,36 @@
-import { Form, useLoaderData } from 'react-router-dom';
-import { useEffect } from 'react';
-import { PokemonRequest } from '../../api/types';
+import { useState } from 'react';
+interface SearchProps {
+  callback: (str: string) => void;
+  searchText: string;
+}
 
-export default function SearchForm() {
-  const { q } = useLoaderData() as PokemonRequest;
-  useEffect(() => {
-    const input = document.getElementById('q') as HTMLInputElement;
-    input.value = q;
-  }, [q]);
+export default function SearchForm({ searchText, callback }: SearchProps) {
+  const [search, setSearch] = useState(searchText);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    callback(search);
+  };
 
   return (
     <>
-      <Form id="search-form" role="search">
-        <input id="q" defaultValue={q} name="search" type="search" />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="find"
+          id="find"
+          value={search}
+          onChange={handleChange}
+        />
         <button type="submit">Search</button>
         <p>
           You can type pokemon name (e.g. pikachu or bulbasaur) or number 1-1010
         </p>
-      </Form>
+      </form>
     </>
   );
 }

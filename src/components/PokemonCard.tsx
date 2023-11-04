@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Pokemon, PokemonDesc } from '../api/types';
+import { useSearchParams } from 'react-router-dom';
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const [desc, setDesc] = useState('');
-
-  function getDescription() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  function getDescription(pokemon: Pokemon) {
     fetch(pokemon.species.url)
       .then((response) => response.json())
       .then((data) => {
@@ -17,11 +18,17 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
       });
   }
   useEffect(() => {
-    getDescription();
+    getDescription(pokemon);
   }, [desc]);
 
   return (
-    <div className="card">
+    <div
+      className="card"
+      onClick={() => {
+        searchParams.set('details', `${pokemon.id}`);
+        setSearchParams(searchParams);
+      }}
+    >
       <h2>{pokemon.name.toUpperCase()}</h2>
       <h3>
         Type:
