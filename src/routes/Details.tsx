@@ -22,7 +22,6 @@ export function PokemonDetails() {
         details && (
           <div className="details">
             <div className="close">
-              {' '}
               <Link className="closeBtn" to={url}></Link>
             </div>
 
