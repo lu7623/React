@@ -21,7 +21,10 @@ export function PokemonDetails() {
       ) : (
         details && (
           <div className="details">
-            <Link className="close" to={url}></Link>
+            <div className="close">
+              {' '}
+              <Link className="closeBtn" to={url}></Link>
+            </div>
 
             <h2>{details.pokemon.name.toUpperCase()}</h2>
             <h3>
