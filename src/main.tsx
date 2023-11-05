@@ -5,18 +5,25 @@ import './index.css';
 import ErrorPage from './routes/ErrorPage';
 import { detailsLoader, PokemonPage } from './routes/page';
 import { pageLoader, Root } from './routes/root';
+import { PokemonDetails } from './routes/Details';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
-    loader: pageLoader,
     children: [
       {
         path: 'page/:pageId',
         element: <PokemonPage />,
-        loader: detailsLoader,
+        loader: pageLoader,
+        children: [
+          {
+            path: 'details/:detailsId',
+            element: <PokemonDetails />,
+            loader: detailsLoader,
+          },
+        ],
       },
     ],
   },

@@ -1,15 +1,10 @@
 import { PokemonRequest } from '../api/types';
-import {
-  useLoaderData,
-  useNavigation,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link, useLoaderData, useNavigation } from 'react-router-dom';
 import Loading from './components/Loading';
 
 export function PokemonDetails() {
   const { details } = useLoaderData() as PokemonRequest;
   const navigation = useNavigation();
-  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <>
       {navigation.state === 'loading' ? (
@@ -17,15 +12,8 @@ export function PokemonDetails() {
       ) : (
         details && (
           <div className="details">
-            <div
-              className="close"
-              onClick={() => {
-                if (searchParams.has('details')) {
-                  searchParams.delete('details');
-                  setSearchParams(searchParams);
-                }
-              }}
-            ></div>
+            <Link className="close" to={'..'}></Link>
+
             <h2>{details.pokemon.name.toUpperCase()}</h2>
             <h3>
               Type:
