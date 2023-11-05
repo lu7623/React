@@ -3,6 +3,8 @@ import Loading from './Loading';
 import PokemonCard from './PokemonCard';
 import {
   Outlet,
+  useLocation,
+  useNavigate,
   useNavigation,
   useParams,
   useSearchParams,
@@ -10,16 +12,24 @@ import {
 
 export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
   const navigation = useNavigation();
-  const { detailsId } = useParams();
+  const navigate = useNavigate();
+  const { pageId, detailsId } = useParams();
+  const { search } = useLocation();
   const [searchParams] = useSearchParams();
   const num = searchParams.get('qty');
   const qty = num ? Number(num) : 2;
+  const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
     <>
       {navigation.state === 'loading' ? (
         <Loading />
       ) : (
-        <div style={{ display: 'flex' }}>
+        <div
+          style={{ display: 'flex' }}
+          onClick={() => {
+            detailsId && navigate(url);
+          }}
+        >
           <div
             className="cardContainer"
             style={
