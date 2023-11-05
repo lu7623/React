@@ -1,10 +1,18 @@
 import { PokemonRequest } from '../api/types';
-import { Link, useLoaderData, useNavigation } from 'react-router-dom';
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  useNavigation,
+  useParams,
+} from 'react-router-dom';
 import Loading from './components/Loading';
 
 export function PokemonDetails() {
   const { details } = useLoaderData() as PokemonRequest;
   const navigation = useNavigation();
+  const { pageId } = useParams();
+  const { search } = useLocation();
   return (
     <>
       {navigation.state === 'loading' ? (
@@ -12,7 +20,7 @@ export function PokemonDetails() {
       ) : (
         details && (
           <div className="details">
-            <Link className="close" to={'..'}></Link>
+            <Link className="close" to={`/page/${pageId}${search}`}></Link>
 
             <h2>{details.pokemon.name.toUpperCase()}</h2>
             <h3>

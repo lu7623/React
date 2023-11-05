@@ -1,12 +1,23 @@
 import { Pokemon } from '../../api/types';
 import PokemonCard from './PokemonCard';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
+  const navigate = useNavigate();
+  const { pageId, detailsId } = useParams();
+  const { search } = useLocation();
   return (
     <>
       <div style={{ display: 'flex' }}>
-        <div className="cardContainer">
+        <div
+          className="cardContainer"
+          onClick={() => {
+            if (detailsId) navigate(`/page/${pageId}${search}`);
+          }}
+          style={
+            detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
+          }
+        >
           {pokemons.length === 0 ? (
             <p>No results found</p>
           ) : (
