@@ -13,6 +13,7 @@ export function PokemonDetails() {
   const navigation = useNavigation();
   const { pageId } = useParams();
   const { search } = useLocation();
+  const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
     <>
       {navigation.state === 'loading' ? (
@@ -20,7 +21,7 @@ export function PokemonDetails() {
       ) : (
         details && (
           <div className="details">
-            <Link className="close" to={`/page/${pageId}${search}`}></Link>
+            <Link className="close" to={url}></Link>
 
             <h2>{details.pokemon.name.toUpperCase()}</h2>
             <h3>

@@ -14,6 +14,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: 'details/:detailsId',
+        element: <PokemonDetails />,
+        loader: detailsLoader,
+      },
+      {
         path: 'page/:pageId',
         element: <PokemonPage />,
         loader: pageLoader,

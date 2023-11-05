@@ -43,6 +43,7 @@ p {
   padding: 0.5em 1em;
   width: 250px;
   min-height: 430px;
+  height: max-content;
   background-color: rgba(247, 222, 184, 0.773);
   border-radius: 10px;
   margin: 10px;

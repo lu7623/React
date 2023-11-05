@@ -18,13 +18,17 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
         setDesc(description);
       });
   }
+
+  const url = pageId
+    ? `/page/${pageId}/details/${pokemon.id}${search}`
+    : `details/${pokemon.id}`;
   useEffect(() => {
     getDescription(pokemon);
   }, [desc]);
 
   return (
     <div className="card">
-      <Link to={`/page/${pageId}/details/${pokemon.id}${search}`}>
+      <Link to={url}>
         {' '}
         <h2>{pokemon.name.toUpperCase()}</h2>
         <h3>

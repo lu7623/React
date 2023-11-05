@@ -6,13 +6,14 @@ export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
   const navigate = useNavigate();
   const { pageId, detailsId } = useParams();
   const { search } = useLocation();
+  const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
     <>
       <div style={{ display: 'flex' }}>
         <div
           className="cardContainer"
           onClick={() => {
-            if (detailsId) navigate(`/page/${pageId}${search}`);
+            if (detailsId) navigate(url);
           }}
           style={
             detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
