@@ -39,6 +39,7 @@ export interface PokemonRequest {
   q: string;
   pokemons: Pokemon[];
   details?: DetailsRequest;
+  max: string;
 }
 
 export interface DetailsRequest {

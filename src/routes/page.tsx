@@ -15,10 +15,10 @@ export async function detailsLoader({ params }: LoaderFunctionArgs) {
 }
 
 export function PokemonPage() {
-  const { pokemons } = useLoaderData() as PokemonRequest;
+  const { pokemons, max } = useLoaderData() as PokemonRequest;
   return (
     <>
-      <Pagination />
+      <Pagination max={max} />
       <PokemonsList pokemons={pokemons} />
     </>
   );

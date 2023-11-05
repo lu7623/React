@@ -36,12 +36,20 @@ export function PokemonDetails() {
             <h4 className="size">Weight: {details.pokemon.weight / 10} kg</h4>
             <div style={{ display: 'flex' }}>
               <img
-                src={details.pokemon.sprites.front_default}
+                src={
+                  details.pokemon.sprites.front_default
+                    ? details.pokemon.sprites.front_default
+                    : '/notAvaliable.jpg'
+                }
                 alt="pokemon"
                 width={200}
               />
               <img
-                src={details.pokemon.sprites.back_default}
+                src={
+                  details.pokemon.sprites.back_default
+                    ? details.pokemon.sprites.back_default
+                    : '/notAvaliable.jpg'
+                }
                 alt="pokemon"
                 width={200}
               />

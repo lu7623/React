@@ -41,7 +41,15 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
         </h3>
         <h4 className="size">Height: {pokemon.height / 10} m</h4>
         <h4 className="size">Weight: {pokemon.weight / 10} kg</h4>
-        <img src={pokemon.sprites.front_default} alt="pokemon" width={150} />
+        <img
+          src={
+            pokemon.sprites.front_default
+              ? pokemon.sprites.front_default
+              : '/notAvaliable.jpg'
+          }
+          alt="pokemon"
+          width={150}
+        />
         <p>{desc}</p>
       </Link>
     </div>

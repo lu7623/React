@@ -11,11 +11,11 @@ export async function pageLoader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const q = url.searchParams.get('qty');
   if (q) {
-    const pokemons = await getPokemonPage(Number(pageNum), Number(q));
-    return { pokemons };
+    const { pokemons, max } = await getPokemonPage(Number(pageNum), Number(q));
+    return { pokemons, max };
   } else {
-    const pokemons = await getPokemonPage(Number(pageNum), 20);
-    return { pokemons };
+    const { pokemons, max } = await getPokemonPage(Number(pageNum), 20);
+    return { pokemons, max };
   }
 }
 

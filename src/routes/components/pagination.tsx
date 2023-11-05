@@ -1,14 +1,15 @@
 import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-export default function Pagination() {
+export default function Pagination({ max }: { max: string }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { pageId } = useParams();
-  const nextPage = pageId ? Number(pageId) + 1 : null;
-  const prevPage = pageId ? Number(pageId) - 1 : null;
   const qty = searchParams.get('qty');
   const [value, setValue] = useState(qty ? qty : '20');
+  const maxPage = Math.ceil(Number(max) / Number(value));
+  const nextPage = Number(pageId) < maxPage ? Number(pageId) + 1 : null;
+  const prevPage = pageId ? Number(pageId) - 1 : null;
 
   function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);

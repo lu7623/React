@@ -31,22 +31,28 @@ export async function getPokemons(): Promise<Pokemon[]> {
   return res;
 }
 
+interface PokemonPages {
+  pokemons: Pokemon[];
+  max: string;
+}
+
 export async function getPokemonPage(
   pageNum: number,
   qty: number
-): Promise<Pokemon[]> {
+): Promise<PokemonPages> {
   const p = await fetch(
     `${BASE_URL}?limit=${qty + 1}&offset=${(pageNum - 1) * qty}`
   ).then((response) => response.json());
+  const max = p.count;
   const urls = p.results.map((res: PokemonType) => res.url);
-  const res: Pokemon[] = [];
+  const pokemons: Pokemon[] = [];
   for (const url of urls) {
     await fetch(url)
       .then((response) => {
         if (response.ok) {
           const promise2 = response.json();
           promise2.then((json) => {
-            res.push(json);
+            pokemons.push(json);
           });
         }
       })
@@ -55,7 +61,7 @@ export async function getPokemonPage(
         throw new Error(error);
       });
   }
-  return res;
+  return { pokemons, max };
 }
 
 export async function getDetails(pokemon: Pokemon): Promise<string> {
