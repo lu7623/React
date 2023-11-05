@@ -3,22 +3,17 @@ import Loading from './Loading';
 import PokemonCard from './PokemonCard';
 import {
   Outlet,
-  useLocation,
-  useNavigate,
   useNavigation,
   useParams,
   useSearchParams,
 } from 'react-router-dom';
 
 export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
-  const navigate = useNavigate();
   const navigation = useNavigation();
-  const { pageId, detailsId } = useParams();
-  const { search } = useLocation();
+  const { detailsId } = useParams();
   const [searchParams] = useSearchParams();
   const num = searchParams.get('qty');
   const qty = num ? Number(num) : 2;
-  const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
     <>
       {navigation.state === 'loading' ? (
@@ -27,9 +22,6 @@ export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
         <div style={{ display: 'flex' }}>
           <div
             className="cardContainer"
-            onClick={() => {
-              if (detailsId) navigate(url);
-            }}
             style={
               detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
             }
