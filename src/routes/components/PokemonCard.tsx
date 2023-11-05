@@ -27,9 +27,8 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   }, [desc, pokemon]);
 
   return (
-    <div className="card">
-      <Link to={url}>
-        {' '}
+    <Link to={url}>
+      <div className="card">
         <h2>{pokemon.name.toUpperCase()}</h2>
         <h3>
           Type:
@@ -51,7 +50,7 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
           width={150}
         />
         <p>{desc}</p>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }

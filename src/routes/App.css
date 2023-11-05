@@ -6,16 +6,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 100vw;
+  max-width:100%; 
 }
 
 .header {
   display: flex;
   height: 150px;
   background-color: rgb(234, 199, 105);
-  width: 100%;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 40px;
+  width: 100vw;
+  max-width:100%; 
 }
 
 .Logo {
@@ -41,7 +44,7 @@ p {
 .card {
   cursor: pointer;
   padding: 0.5em 1em;
-  width: 250px;
+  width: 230px;
   min-height: 430px;
   height: max-content;
   background-color: rgba(247, 222, 184, 0.773);
@@ -61,13 +64,16 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 100vw;
+  max-width:100%; 
 }
+
 
 .cardContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 0 60px;
+  margin: 0 30px;
 }
 
 .error {
@@ -83,7 +89,9 @@ p {
   height: max-content;
   min-height: 100vh;
   position: sticky;
+  padding: 0 30px;
   margin: 0 40px;
+  font-size: 1.2rem;
 }
 
 input[type='radio'] {
@@ -131,8 +139,6 @@ input[type='radio']:checked + label {
   border-radius: 10px;
   padding: 20px;
   text-align: left;
-  font-size: 22px;
-  font-weight: 600;
   background-color: rgb(252, 158, 81);
   margin-bottom: 30px;
 }
