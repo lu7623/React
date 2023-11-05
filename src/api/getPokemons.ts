@@ -10,7 +10,9 @@ export async function getPokemon(searchStr: string): Promise<Pokemon> {
 }
 
 export async function getPokemons(): Promise<Pokemon[]> {
-  const p = await fetch(`${BASE_URL}`).then((response) => response.json());
+  const p = await fetch(`${BASE_URL}?limit=20&offset=1`).then((response) =>
+    response.json()
+  );
   const urls = p.results.map((res: PokemonType) => res.url);
   const res: Pokemon[] = [];
   for (const url of urls) {

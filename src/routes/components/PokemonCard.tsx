@@ -24,7 +24,7 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
     : `details/${pokemon.id}`;
   useEffect(() => {
     getDescription(pokemon);
-  }, [desc]);
+  }, [desc, pokemon]);
 
   return (
     <div className="card">

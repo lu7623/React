@@ -43,7 +43,7 @@ export function Root() {
     fetchData(search);
     if (search === '') navigate('/page/1');
     else navigate('/');
-  }, [search]);
+  }, [search, navigate]);
 
   const handleForm = (str: string) => {
     setSearch(str);

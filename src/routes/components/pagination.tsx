@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 export default function Pagination({ max }: { max: string }) {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { pageId } = useParams();
   const qty = searchParams.get('qty');
   const [value, setValue] = useState(qty ? qty : '20');
@@ -16,10 +16,8 @@ export default function Pagination({ max }: { max: string }) {
   }
 
   useEffect(() => {
-    searchParams.set('qty', value);
-    setSearchParams(searchParams);
     navigate(`/page/1?qty=${value}`);
-  }, [value]);
+  }, [value, navigate]);
 
   return (
     <div className="pagination">
