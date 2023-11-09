@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Pokemon, PokemonDesc } from '../../api/types';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const [desc, setDesc] = useState('');
-  const { pageId } = useParams();
-  const { search } = useLocation();
+  const { pathname, search } = useLocation();
+
   function getDescription(pokemon: Pokemon) {
     fetch(pokemon.species.url)
       .then((response) => response.json())
@@ -19,9 +19,8 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
       });
   }
 
-  const url = pageId
-    ? `/page/${pageId}/details/${pokemon.id}${search}`
-    : `details/${pokemon.id}`;
+  const url = `${pathname}/details/${pokemon.id}${search}`;
+
   useEffect(() => {
     getDescription(pokemon);
   }, [desc, pokemon]);

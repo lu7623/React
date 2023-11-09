@@ -1,52 +1,39 @@
-import { Pokemon } from '../../api/types';
-import Loading from './Loading';
+import { useContext } from 'react';
 import PokemonCard from './PokemonCard';
-import {
-  Outlet,
-  useLocation,
-  useNavigate,
-  useNavigation,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {} from '../PokemonPage';
+import { pokemonsContext } from '../Root';
 
-export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
-  const navigation = useNavigation();
+export default function PokemonsList() {
+  const pokemons = useContext(pokemonsContext);
   const navigate = useNavigate();
   const { pageId, detailsId } = useParams();
   const { search } = useLocation();
-  const [searchParams] = useSearchParams();
-  const num = searchParams.get('qty');
-  const qty = num ? Number(num) : 2;
   const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
     <>
-      {navigation.state === 'loading' ? (
-        <Loading />
-      ) : (
+      <div
+        style={{ display: 'flex' }}
+        onClick={() => {
+          detailsId && navigate(url);
+        }}
+      >
         <div
-          style={{ display: 'flex' }}
-          onClick={() => {
-            detailsId && navigate(url);
-          }}
+          className="cardContainer"
+          style={
+            detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
+          }
         >
-          <div
-            className="cardContainer"
-            style={
-              detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
-            }
-          >
-            {pokemons.length === 0 ? (
-              <p>No results found</p>
-            ) : (
-              pokemons.map((p, i) => {
-                if (i < qty) return <PokemonCard key={p.name} pokemon={p} />;
-              })
-            )}
-          </div>
-          <Outlet />
+          {pokemons.length === 0 ? (
+            <p>No results found</p>
+          ) : (
+            pokemons.map((p) => {
+              return <PokemonCard key={p.name} pokemon={p} />;
+            })
+          )}
         </div>
-      )}
+        <Outlet />
+      </div>
     </>
   );
 }

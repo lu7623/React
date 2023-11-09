@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import ErrorPage from './routes/ErrorPage';
-import { detailsLoader, PokemonPage } from './routes/page';
-import { pageLoader, Root } from './routes/root';
-import { PokemonDetails } from './routes/Details';
+import { PokemonDetails } from './routes/PokemonDetails';
+import { detailsLoader } from './routes/utils/detailsLoader';
+import { Root } from './routes/Root';
 
 const router = createBrowserRouter([
   {
@@ -14,14 +14,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'details/:detailsId',
-        element: <PokemonDetails />,
-        loader: detailsLoader,
-      },
-      {
         path: 'page/:pageId',
-        element: <PokemonPage />,
-        loader: pageLoader,
         children: [
           {
             path: 'details/:detailsId',

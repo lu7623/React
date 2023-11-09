@@ -1,12 +1,13 @@
-import { useState } from 'react';
-interface SearchProps {
+import { useContext, useState } from 'react';
+import { searchContext } from '../Root';
+
+export default function SearchForm({
+  callback,
+}: {
   callback: (str: string) => void;
-  searchText: string;
-}
-
-export default function SearchForm({ searchText, callback }: SearchProps) {
+}) {
+  const searchText = useContext(searchContext);
   const [search, setSearch] = useState(searchText);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };

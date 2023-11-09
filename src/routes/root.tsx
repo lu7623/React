@@ -1,34 +1,28 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { Pokemon } from '../api/types';
-import { getPokemon, getPokemonPage, getPokemons } from '../api/getPokemons';
-import { LoaderFunctionArgs, Outlet, useNavigate } from 'react-router-dom';
+import { getPokemon, getPokemonPage } from '../api/getPokemons';
+import { useParams, useSearchParams } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
-import PokemonsList from './components/PokemonsList';
+import { PokemonPage } from './PokemonPage';
 
-export async function pageLoader({ request, params }: LoaderFunctionArgs) {
-  const pageNum = params.pageId;
-  const url = new URL(request.url);
-  const q = url.searchParams.get('qty');
-  if (q) {
-    const { pokemons, max } = await getPokemonPage(Number(pageNum), Number(q));
-    return { pokemons, max };
-  } else {
-    const { pokemons, max } = await getPokemonPage(Number(pageNum), 20);
-    return { pokemons, max };
-  }
-}
+export const searchContext = createContext('');
+export const pokemonsContext = createContext<Pokemon[]>([]);
 
 export function Root() {
   const searchText = localStorage.getItem('search');
   const [search, setSearch] = useState(searchText ? searchText : '');
   const [error, setError] = useState<Error>();
-  const navigate = useNavigate();
-  async function fetchData(searchStr: string) {
+  const { pageId } = useParams();
+  const [searchParams] = useSearchParams();
+  const qty = searchParams.get('qty');
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+
+  async function fetchData(searchStr: string, page = 1, qty = 20) {
     try {
       if (searchStr === '') {
-        const p = await getPokemons();
-        setPokemons(p);
+        const { pokemons } = await getPokemonPage(page, qty);
+        setPokemons(pokemons);
       } else {
         const p = await getPokemon(searchStr);
         setPokemons([p]);
@@ -37,38 +31,34 @@ export function Root() {
       setPokemons([]);
     }
   }
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
   useEffect(() => {
-    fetchData(search);
-    if (search === '') navigate('/page/1');
-    else navigate('/');
-  }, [search, navigate]);
+    fetchData(search.toLowerCase().trim(), Number(pageId), Number(qty));
+  }, [search, qty, pageId]);
 
   const handleForm = (str: string) => {
     setSearch(str);
     localStorage.setItem('search', str);
-    const searchStr = str.toLowerCase().trim();
-    fetchData(searchStr);
   };
 
   const showError = () => {
     setError(new Error('Some generated error'));
   };
+
   if (error) throw error;
   return (
     <>
       <div className="App">
         <div className="header">
           <div className="Logo"></div>
-          <SearchForm callback={handleForm} searchText={search} />
+          <searchContext.Provider value={search}>
+            <SearchForm callback={handleForm} />
+          </searchContext.Provider>
           <div className="Img"></div>
         </div>
-        {pokemons.length > 1 ? (
-          <Outlet />
-        ) : (
-          <PokemonsList pokemons={pokemons} />
-        )}
+        <pokemonsContext.Provider value={pokemons}>
+          <PokemonPage />
+        </pokemonsContext.Provider>
       </div>
       <button className="error" onClick={showError}>
         Error
