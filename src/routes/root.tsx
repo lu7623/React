@@ -5,6 +5,7 @@ import { getPokemon, getPokemonPage } from '../api/getPokemons';
 import { useParams, useSearchParams } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
 import { PokemonPage } from './PokemonPage';
+import Loading from './components/Loading';
 
 export const searchContext = createContext('');
 export const pokemonsContext = createContext<Pokemon[]>([]);
@@ -14,11 +15,13 @@ export function Root() {
   const [search, setSearch] = useState(searchText ? searchText : '');
   const [error, setError] = useState<Error>();
   const { pageId } = useParams();
+  const [load, setload] = useState(false);
   const [searchParams] = useSearchParams();
   const qty = searchParams.get('qty');
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
   async function fetchData(searchStr: string, page = 1, qty = 20) {
+    setload(true);
     try {
       if (searchStr === '') {
         const { pokemons } = await getPokemonPage(page, qty);
@@ -30,6 +33,7 @@ export function Root() {
     } catch {
       setPokemons([]);
     }
+    setload(false);
   }
 
   useEffect(() => {
@@ -56,9 +60,12 @@ export function Root() {
           </searchContext.Provider>
           <div className="Img"></div>
         </div>
-        <pokemonsContext.Provider value={pokemons}>
-          <PokemonPage />
-        </pokemonsContext.Provider>
+        {load ? <Loading /> : null}
+        <div style={load ? { opacity: '30%' } : { opacity: '100%' }}>
+          <pokemonsContext.Provider value={pokemons}>
+            <PokemonPage />
+          </pokemonsContext.Provider>
+        </div>
       </div>
       <button className="error" onClick={showError}>
         Error
