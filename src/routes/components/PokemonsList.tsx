@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import PokemonCard from './PokemonCard';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import {} from '../PokemonPage';
 import { pokemonsContext } from '../Root';
 
 export default function PokemonsList() {

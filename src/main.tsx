@@ -5,6 +5,7 @@ import './index.css';
 import ErrorPage from './routes/ErrorPage';
 import { PokemonDetails } from './routes/PokemonDetails';
 import { detailsLoader } from './routes/utils/detailsLoader';
+import NotFound from './routes/components/NotFound';
 import { Root } from './routes/Root';
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
 

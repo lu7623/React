@@ -9,6 +9,8 @@ module.exports = {
     '!<rootDir>/*.lintstagedrc.js',
     '!<rootDir>/*.config.ts',
     '!<rootDir>/coverage/**',
+    '!<rootDir>/dist/**',
+   
   ],
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',

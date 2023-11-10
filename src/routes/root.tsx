@@ -11,8 +11,10 @@ export const searchContext = createContext('');
 export const pokemonsContext = createContext<Pokemon[]>([]);
 
 export function Root() {
-  const searchText = localStorage.getItem('search');
-  const [search, setSearch] = useState(searchText ? searchText : '');
+  const storageSearchText = localStorage.getItem('search');
+  const [search, setSearch] = useState(
+    storageSearchText ? storageSearchText : ''
+  );
   const [error, setError] = useState<Error>();
   const { pageId } = useParams();
   const [load, setload] = useState(false);
@@ -42,7 +44,6 @@ export function Root() {
 
   const handleForm = (str: string) => {
     setSearch(str);
-    localStorage.setItem('search', str);
   };
 
   const showError = () => {

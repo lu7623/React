@@ -6,14 +6,18 @@ export default function SearchForm({
 }: {
   callback: (str: string) => void;
 }) {
+  const storageSearchText = localStorage.getItem('search');
   const searchText = useContext(searchContext);
-  const [search, setSearch] = useState(searchText);
+  const [search, setSearch] = useState(
+    storageSearchText ? storageSearchText : searchText
+  );
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    localStorage.setItem('search', search);
     callback(search);
   };
 
