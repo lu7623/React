@@ -18,7 +18,7 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   }, [desc, pokemon]);
 
   return (
-    <div className="card" onClick={() => navigate(url)}>
+    <div className="card" data-testid="card" onClick={() => navigate(url)}>
       <h2>{pokemon.name.toUpperCase()}</h2>
       <h3>
         Type:

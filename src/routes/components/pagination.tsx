@@ -12,7 +12,7 @@ export default function Pagination() {
     Number(pageId) < maxPage && pokemons.length !== 1
       ? Number(pageId) + 1
       : null;
-  const prevPage = pageId ? Number(pageId) - 1 : null;
+  const prevPage = pageId ? Number(pageId) - 1 : 0;
 
   function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
@@ -27,7 +27,7 @@ export default function Pagination() {
       <div className="pagination">
         <div className="navigation">
           <button
-            disabled={!prevPage && pokemons.length === 1}
+            disabled={prevPage === 0 || pokemons.length === 1}
             className="navBtn"
             onClick={() => navigate(`/page/${prevPage}?qty=${value}`)}
           >

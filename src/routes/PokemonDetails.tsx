@@ -28,7 +28,11 @@ export function PokemonDetails() {
               navigate(url);
             }}
           >
-            <div className="details" onClick={(e) => e.stopPropagation()}>
+            <div
+              data-testid="details"
+              className="details"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="close">
                 <Link className="closeBtn" to={url}></Link>
               </div>
@@ -65,7 +69,7 @@ export function PokemonDetails() {
                 />
               </div>
               <p>{details.desc ? details.desc : ''}</p>
-              <h3>Stats: </h3>
+              <h3>Stats:</h3>
               <div className="stat">
                 {details.pokemon.stats.map((stat) => (
                   <div key={stat.stat.name}>
