@@ -1,8 +1,7 @@
 import ErrorPage from './routes/ErrorPage';
-import { PokemonDetails } from './routes/PokemonDetails';
+import PokemonDetails from './routes/PokemonDetails';
 import { Root } from './routes/Root';
 import NotFound from './routes/components/NotFound';
-import { detailsLoader } from './routes/utils/detailsLoader';
 
 export const routerConfig = [
   {
@@ -16,7 +15,6 @@ export const routerConfig = [
           {
             path: 'details/:detailsId',
             element: <PokemonDetails />,
-            loader: detailsLoader,
           },
         ],
       },

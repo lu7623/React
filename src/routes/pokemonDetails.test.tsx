@@ -20,7 +20,6 @@ const mockPokemon: Pokemon = {
 
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import React from 'react';
 import { Pokemon } from '../api/types';
 import PokemonDetails from './PokemonDetails';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
@@ -46,6 +45,7 @@ jest.mock('react-router-dom', () => ({
   }),
   useParams: jest.fn().mockReturnValue({
     pageId: '1',
+    detailsId: '1',
   }),
 }));
 
@@ -55,11 +55,21 @@ jest.mock('../api/getPokemons', () => ({
     .mockReturnValue(
       'When several of these POKéMON gather, their electricity could build and cause lightning storms.'
     ),
+  getPokemon: jest.fn().mockReturnValue(mockPokemon),
 }));
-jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
+
 const fakeLoader = jest.fn().mockReturnValue(() => {});
 
-describe('Pokemon card ', () => {
+describe('Pokemon details ', () => {
+  it('Check that a loading indicator is displayed while fetching data', async () => {
+    render(
+      <BrowserRouter>
+        <PokemonDetails />
+      </BrowserRouter>
+    );
+    const loader = screen.getByAltText('loading');
+    expect(loader).toBeInTheDocument();
+  });
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
     render(
       <BrowserRouter>

@@ -3,10 +3,10 @@ import { Pokemon, PokemonDesc, PokemonType } from './types';
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 export async function getPokemon(searchStr: string): Promise<Pokemon> {
-  const pokemonArr = await fetch(`${BASE_URL}/${searchStr}`).then((response) =>
+  const newPokemon = await fetch(`${BASE_URL}/${searchStr}`).then((response) =>
     response.json()
   );
-  return pokemonArr;
+  return newPokemon;
 }
 
 export async function getPokemons(): Promise<Pokemon[]> {

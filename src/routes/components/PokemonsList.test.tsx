@@ -70,6 +70,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.mock('../../api/getPokemons', () => ({
+  getPokemon: jest.fn().mockReturnValue(pokemons[0]),
   getDetails: jest
     .fn()
     .mockReturnValue(
