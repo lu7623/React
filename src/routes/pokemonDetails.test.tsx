@@ -1,4 +1,4 @@
-const pokemon: Pokemon = {
+const mockPokemon: Pokemon = {
   name: 'Pikachu',
   id: 1,
   height: 10,
@@ -17,39 +17,39 @@ const pokemon: Pokemon = {
     },
   ],
 };
-import { Pokemon } from '../../api/types';
+
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import PokemonCard from './PokemonCard';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from '../Root';
-import PokemonsList from './PokemonsList';
-import PokemonDetails from '../PokemonDetails';
+import { Pokemon } from '../api/types';
+import PokemonDetails from './PokemonDetails';
+import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
+import { pokemonsContext } from './Root';
+import PokemonsList from './components/PokemonsList';
 
 const mockUseNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockUseNavigate,
-  useLocation: jest.fn().mockReturnValue({
-    search: '',
-    pathname: '/page/1',
-  }),
   useLoaderData: jest.fn().mockReturnValue({
     details: {
-      pokemon: pokemon,
+      pokemon: mockPokemon,
       desc: 'When several of these POKéMON gather, their electricity could build and cause lightning storms.',
     },
-  }),
-  useParams: jest.fn().mockReturnValue({
-    pageId: '1',
   }),
   useNavigation: jest.fn().mockReturnValue({
     state: '',
   }),
+  useLocation: jest.fn().mockReturnValue({
+    search: '',
+    pathname: '/page/1',
+  }),
+  useParams: jest.fn().mockReturnValue({
+    pageId: '1',
+  }),
 }));
 
-jest.mock('../../api/getPokemons', () => ({
+jest.mock('../api/getPokemons', () => ({
   getDetails: jest
     .fn()
     .mockReturnValue(
@@ -57,15 +57,14 @@ jest.mock('../../api/getPokemons', () => ({
     ),
 }));
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
-
 const fakeLoader = jest.fn().mockReturnValue(() => {});
 
 describe('Pokemon card ', () => {
-  it('Ensure that the card component renders the relevant card data', async () => {
+  it('Make sure the detailed card component correctly displays the detailed card data', async () => {
     render(
-      <MemoryRouter initialEntries={['/page/1/']}>
-        <PokemonCard pokemon={pokemon} />
-      </MemoryRouter>
+      <BrowserRouter>
+        <PokemonDetails />
+      </BrowserRouter>
     );
 
     await waitFor(() => {
@@ -74,19 +73,18 @@ describe('Pokemon card ', () => {
       const description = screen.getByText(
         'When several of these POKéMON gather, their electricity could build and cause lightning storms.'
       );
-      const type = screen.getByText('electric');
+      const stats = screen.getByText('Stats:');
 
       expect(name).toBeInTheDocument();
       expect(weight).toBeInTheDocument();
       expect(description).toBeInTheDocument();
-      expect(type).toBeInTheDocument();
+      expect(stats).toBeInTheDocument();
     });
   });
-
-  it('Validate that clicking on a card opens a detailed card component', async () => {
+  it('Ensure that clicking the close button hides the component.', async () => {
     render(
-      <MemoryRouter initialEntries={['/page/1/']}>
-        <pokemonsContext.Provider value={[pokemon]}>
+      <MemoryRouter initialEntries={['/page/1/details/1']}>
+        <pokemonsContext.Provider value={[mockPokemon]}>
           <Routes>
             <Route path="/page/1" element={<PokemonsList />}>
               <Route
@@ -100,12 +98,13 @@ describe('Pokemon card ', () => {
       </MemoryRouter>
     );
 
-    const card = screen.getByTestId('card');
-    fireEvent.click(card);
-
+    const btn = screen.getByTestId('close');
+    const details = screen.getByTestId('details');
+    const pokemon = screen.getByAltText('pokemon');
+    fireEvent.click(btn);
     await waitFor(() => {
-      const details = screen.getByTestId('details');
-      expect(details).toBeInTheDocument();
+      expect(details).not.toBeInTheDocument();
+      expect(pokemon).toBeVisible();
     });
   });
 });

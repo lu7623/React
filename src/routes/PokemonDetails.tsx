@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import Loading from './components/Loading';
 
-export function PokemonDetails() {
+export default function PokemonDetails() {
   const { details } = useLoaderData() as PokemonRequest;
   const navigation = useNavigation();
   const { pageId } = useParams();
@@ -34,7 +34,7 @@ export function PokemonDetails() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="close">
-                <Link className="closeBtn" to={url}></Link>
+                <Link className="closeBtn" to={url} data-testid="close"></Link>
               </div>
 
               <h2>{details.pokemon.name.toUpperCase()}</h2>
@@ -55,7 +55,7 @@ export function PokemonDetails() {
                       ? details.pokemon.sprites.front_default
                       : '/notAvaliable.jpg'
                   }
-                  alt="pokemon"
+                  alt="pokemon-front"
                   width={200}
                 />
                 <img
@@ -64,7 +64,7 @@ export function PokemonDetails() {
                       ? details.pokemon.sprites.back_default
                       : '/notAvaliable.jpg'
                   }
-                  alt="pokemon"
+                  alt="pokemon-back"
                   width={200}
                 />
               </div>
