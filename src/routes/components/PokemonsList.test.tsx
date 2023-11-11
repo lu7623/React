@@ -68,17 +68,29 @@ jest.mock('react-router-dom', () => ({
 
 import { pokemonsContext } from '../Root';
 
-describe('Show pokemons list ', () => {
-  it('renders list with 2 cards', async () => {
+describe('Pokemons list ', () => {
+  it('Verify that the component renders the specified number of cards', async () => {
     render(
       <pokemonsContext.Provider value={pokemons}>
         <PokemonsList />
       </pokemonsContext.Provider>
     );
     await waitFor(() => {
-      const pikachu = screen.getByText('PIKACHU');
+      const pokemonImages = screen.getAllByAltText('pokemon');
 
-      expect(pikachu).toBeVisible();
+      expect(pokemonImages.length).toBe(2);
+    });
+  });
+  it('Check that an appropriate message is displayed if no cards are present', async () => {
+    render(
+      <pokemonsContext.Provider value={[]}>
+        <PokemonsList />
+      </pokemonsContext.Provider>
+    );
+    await waitFor(() => {
+      const text = screen.getByText('No results found');
+
+      expect(text).toBeInTheDocument();
     });
   });
 });
