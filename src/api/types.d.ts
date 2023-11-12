@@ -61,3 +61,8 @@ export interface Stat {
   name: string;
   url: string;
 }
+
+export interface PokemonPages {
+  pokemons: Pokemon[];
+  max: string;
+}

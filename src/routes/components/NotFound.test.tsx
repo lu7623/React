@@ -19,12 +19,13 @@ const mockPokemon: Pokemon = {
 };
 
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Pokemon } from '../../api/types';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { routerConfig } from '../../routerConfig';
+import NotFound from './NotFound';
 
-const mockUseNavigate = jest.fn();
+const mockUseNavigate = jest.fn().mockReturnValue('');
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockUseNavigate,
@@ -55,5 +56,16 @@ describe('Not found page', () => {
 
     expect(text).toBeInTheDocument();
     expect(window.location.pathname).toEqual('/');
+  });
+  it('Clicking on Go back button returns to previous page.', async () => {
+    render(<NotFound />);
+
+    const back = screen.getByText('Go back');
+
+    expect(back).toBeInTheDocument();
+    await waitFor(() => {
+      fireEvent.click(back);
+      expect(mockUseNavigate).toHaveBeenCalledWith('..');
+    });
   });
 });

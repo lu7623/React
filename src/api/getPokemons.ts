@@ -1,4 +1,4 @@
-import { Pokemon, PokemonDesc, PokemonType } from './types';
+import { Pokemon, PokemonDesc, PokemonPages, PokemonType } from './types';
 
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 
@@ -7,35 +7,6 @@ export async function getPokemon(searchStr: string): Promise<Pokemon> {
     response.json()
   );
   return newPokemon;
-}
-
-export async function getPokemons(): Promise<Pokemon[]> {
-  const p = await fetch(`${BASE_URL}?limit=20&offset=1`).then((response) =>
-    response.json()
-  );
-  const urls = p.results.map((res: PokemonType) => res.url);
-  const res: Pokemon[] = [];
-  for (const url of urls) {
-    await fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          const promise2 = response.json();
-          promise2.then((json) => {
-            res.push(json);
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        throw new Error(error);
-      });
-  }
-  return res;
-}
-
-interface PokemonPages {
-  pokemons: Pokemon[];
-  max: string;
 }
 
 export async function getPokemonPage(
