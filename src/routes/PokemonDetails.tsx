@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 
 export default function PokemonDetails() {
   const [details, setDetails] = useState('');
-
   const [load, setLoad] = useState(false);
   const { pageId, detailsId } = useParams();
   const { search } = useLocation();
   const [pokemon, setPokemon] = useState<Pokemon>();
+
   useEffect(() => {
     async function fetchData(pokemonId: string) {
       setLoad(true);

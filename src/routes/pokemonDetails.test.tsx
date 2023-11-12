@@ -30,15 +30,6 @@ const mockUseNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockUseNavigate,
-  useLoaderData: jest.fn().mockReturnValue({
-    details: {
-      pokemon: mockPokemon,
-      desc: 'When several of these POKéMON gather, their electricity could build and cause lightning storms.',
-    },
-  }),
-  useNavigation: jest.fn().mockReturnValue({
-    state: '',
-  }),
   useLocation: jest.fn().mockReturnValue({
     search: '',
     pathname: '/page/1',
@@ -49,16 +40,15 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
+const fakeGetPokemons = jest.fn().mockReturnValue(mockPokemon);
 jest.mock('../api/getPokemons', () => ({
   getDetails: jest
     .fn()
     .mockReturnValue(
       'When several of these POKéMON gather, their electricity could build and cause lightning storms.'
     ),
-  getPokemon: jest.fn().mockReturnValue(mockPokemon),
+  getPokemon: () => fakeGetPokemons,
 }));
-
-const fakeLoader = jest.fn().mockReturnValue(() => {});
 
 describe('Pokemon details ', () => {
   it('Check that a loading indicator is displayed while fetching data', async () => {
@@ -69,6 +59,11 @@ describe('Pokemon details ', () => {
     );
     const loader = screen.getByAltText('loading');
     expect(loader).toBeInTheDocument();
+
+    await waitFor(() => {
+      const name = screen.getByText('PIKACHU');
+      expect(name).toBeInTheDocument();
+    });
   });
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
     render(
@@ -97,11 +92,7 @@ describe('Pokemon details ', () => {
         <pokemonsContext.Provider value={[mockPokemon]}>
           <Routes>
             <Route path="/page/1" element={<PokemonsList />}>
-              <Route
-                loader={fakeLoader}
-                path="details/1"
-                element={<PokemonDetails />}
-              />
+              <Route path="details/1" element={<PokemonDetails />} />
             </Route>
           </Routes>
         </pokemonsContext.Provider>
@@ -115,6 +106,26 @@ describe('Pokemon details ', () => {
     await waitFor(() => {
       expect(details).not.toBeInTheDocument();
       expect(pokemon).toBeVisible();
+    });
+  });
+  it('Ensure that clicking the close button hides the component.', async () => {
+    render(
+      <MemoryRouter initialEntries={['/page/1']}>
+        <pokemonsContext.Provider value={[mockPokemon]}>
+          <Routes>
+            <Route path="/page/1" element={<PokemonsList />}>
+              <Route path="details/1" element={<PokemonDetails />} />
+            </Route>
+          </Routes>
+        </pokemonsContext.Provider>
+      </MemoryRouter>
+    );
+
+    const btn = screen.getByTestId('card');
+
+    fireEvent.click(btn);
+    await waitFor(() => {
+      expect(fakeGetPokemons).toHaveBeenCalled();
     });
   });
 });
