@@ -1,4 +1,4 @@
-import Pagination from './components/Pagination';
+import Pagination from './components/pagination';
 import PokemonsList from './components/PokemonsList';
 
 export function PokemonPage() {

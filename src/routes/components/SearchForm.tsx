@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { searchContext } from '../Root';
+import { searchContext } from '../root';
 
 export default function SearchForm({
   callback,

@@ -22,7 +22,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Pokemon } from '../api/types';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from './Root';
+import { pokemonsContext } from './root';
 import { PokemonPage } from './PokemonPage';
 
 const mockUseNavigate = jest.fn();

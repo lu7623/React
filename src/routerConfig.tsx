@@ -1,6 +1,6 @@
-import ErrorPage from './routes/ErrorPage';
+import ErrorPage from './routes/errorPage';
 import PokemonDetails from './routes/PokemonDetails';
-import { Root } from './routes/Root';
+import { Root } from './routes/root';
 import NotFound from './routes/components/NotFound';
 
 export const routerConfig = [

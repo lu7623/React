@@ -193,8 +193,8 @@ const pokemons: Pokemon[] = [
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { pokemonsContext } from '../Root';
-import Pagination from './Pagination';
+import { pokemonsContext } from '../root';
+import Pagination from './pagination';
 import { Pokemon } from '../../api/types';
 
 const mockUseNavigate = jest.fn();

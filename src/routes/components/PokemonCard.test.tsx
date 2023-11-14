@@ -23,7 +23,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Pokemon } from '../../api/types';
 import PokemonDetails from '../PokemonDetails';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from '../Root';
+import { pokemonsContext } from '../root';
 import PokemonsList from './PokemonsList';
 import PokemonCard from './PokemonCard';
 
