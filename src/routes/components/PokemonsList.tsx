@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import PokemonCard from './PokemonCard';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { pokemonsContext } from '../Root0000';
+import { pokemonsContext } from '../Root';
 
 export default function PokemonsList() {
   const pokemons = useContext(pokemonsContext);

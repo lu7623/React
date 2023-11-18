@@ -6,7 +6,7 @@ import {
   RouterProvider,
   createMemoryRouter,
 } from 'react-router-dom';
-import { Root } from './Root0000';
+import { Root } from './Root';
 import { routerConfig } from '../routerConfig';
 
 const mockUseNavigate = jest.fn();

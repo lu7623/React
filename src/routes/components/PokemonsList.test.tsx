@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from '../Root0000';
+import { pokemonsContext } from '../Root';
 import PokemonsList from './PokemonsList';
 
 const mockUseNavigate = jest.fn();

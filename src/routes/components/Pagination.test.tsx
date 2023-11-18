@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { pokemonsContext } from '../Root0000';
-import Pagination from './Pagination0000';
+import { pokemonsContext } from '../Root';
+import Pagination from './Pagination';
 import { Pokemon } from '../../api/types';
 import { mockPokemon } from '../../api/mockPokemon';
 
