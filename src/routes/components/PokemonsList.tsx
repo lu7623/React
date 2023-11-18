@@ -1,10 +1,8 @@
-import { useContext } from 'react';
 import PokemonCard from './PokemonCard';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { pokemonsContext } from '../Root';
+import { Pokemon } from '../../api/types';
 
-export default function PokemonsList() {
-  const pokemons = useContext(pokemonsContext);
+export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
   const navigate = useNavigate();
   const { pageId, detailsId } = useParams();
   const { search } = useLocation();

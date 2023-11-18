@@ -5,18 +5,13 @@ import NotFound from './routes/components/NotFound';
 
 export const routerConfig = [
   {
-    path: '/',
+    path: 'page/:pageId',
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'page/:pageId',
-        children: [
-          {
-            path: 'details/:detailsId',
-            element: <PokemonDetails />,
-          },
-        ],
+        path: 'details/:detailsId',
+        element: <PokemonDetails />,
       },
     ],
   },

@@ -1,9 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
-import { pokemonsContext } from '../Root';
+import { useState, useEffect } from 'react';
+import { Pokemon } from '../../api/types';
 
-export default function Pagination() {
-  const pokemons = useContext(pokemonsContext);
+export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
   const navigate = useNavigate();
   const { pageId } = useParams();
   const [value, setValue] = useState('20');

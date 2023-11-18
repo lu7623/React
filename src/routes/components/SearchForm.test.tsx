@@ -50,7 +50,7 @@ jest.mock('react-router-dom', () => ({
 describe('Search form ', () => {
   it('Check that the component retrieves the value from the local storage upon mounting', async () => {
     global.localStorage.setItem('search', 'bulbasaur');
-    render(<SearchForm callback={() => {}} />);
+    render(<SearchForm />);
 
     await waitFor(() => {
       const bulbasaur = screen.getByDisplayValue('bulbasaur');
@@ -59,7 +59,7 @@ describe('Search form ', () => {
     });
   });
   it('Verify that clicking the Search button saves the entered value to the local storage', async () => {
-    render(<SearchForm callback={() => {}} />);
+    render(<SearchForm />);
 
     const input = screen.getByRole('textbox');
     const submit = screen.getByText('Search');

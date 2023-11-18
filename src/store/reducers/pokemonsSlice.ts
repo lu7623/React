@@ -2,13 +2,13 @@ import { Pokemon } from '../../api/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface pokemonState {
-  pokemons: Pokemon[];
+  currentPokemons: Pokemon[];
   isLoading: boolean;
   error: string;
 }
 
 const initialState: pokemonState = {
-  pokemons: [],
+  currentPokemons: [],
   isLoading: false,
   error: '',
 };

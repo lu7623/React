@@ -4,7 +4,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from '../Root';
 import PokemonsList from './PokemonsList';
 
 const mockUseNavigate = jest.fn();
@@ -37,11 +36,7 @@ import { mockPokemon } from '../../api/mockPokemon';
 
 describe('Pokemons list ', () => {
   it('Check that an appropriate message is displayed if no cards are present', async () => {
-    render(
-      <pokemonsContext.Provider value={[]}>
-        <PokemonsList />
-      </pokemonsContext.Provider>
-    );
+    render(<PokemonsList pokemons={[]} />);
     await waitFor(() => {
       const text = screen.getByText('No results found');
 
