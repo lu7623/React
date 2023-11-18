@@ -1,16 +1,12 @@
-import { useContext, useState } from 'react';
-import { searchContext } from '../Root';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/custom';
+import { searchSlice } from '../../store/reducers/searchSlice';
 
-export default function SearchForm({
-  callback,
-}: {
-  callback: (str: string) => void;
-}) {
-  const storageSearchText = localStorage.getItem('search');
-  const searchText = useContext(searchContext);
-  const [search, setSearch] = useState(
-    storageSearchText ? storageSearchText : searchText
-  );
+export default function SearchForm() {
+  const { searchStr } = useAppSelector((state) => state.searchReducer);
+  const dispatch = useAppDispatch();
+  const { newSearch } = searchSlice.actions;
+  const [search, setSearch] = useState(searchStr);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
@@ -18,7 +14,7 @@ export default function SearchForm({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     localStorage.setItem('search', search);
-    callback(search);
+    dispatch(newSearch(search));
   };
 
   return (

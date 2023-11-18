@@ -6,15 +6,12 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
 import { PokemonPage } from './PokemonPage';
 import Loading from './components/Loading';
+import { useAppSelector } from '../hooks/custom';
 
-export const searchContext = createContext('');
 export const pokemonsContext = createContext<Pokemon[]>([]);
 
 export function Root() {
-  const storageSearchText = localStorage.getItem('search');
-  const [search, setSearch] = useState(
-    storageSearchText ? storageSearchText : ''
-  );
+  const { searchStr } = useAppSelector((state) => state.searchReducer);
   const [error, setError] = useState<Error>();
   const { pageId } = useParams();
   const [load, setload] = useState(false);
@@ -39,12 +36,8 @@ export function Root() {
   }
 
   useEffect(() => {
-    fetchData(search.toLowerCase().trim(), Number(pageId), Number(qty));
-  }, [search, qty, pageId]);
-
-  const handleForm = (str: string) => {
-    setSearch(str);
-  };
+    fetchData(searchStr.toLowerCase().trim(), Number(pageId), Number(qty));
+  }, [searchStr, qty, pageId]);
 
   const showError = () => {
     setError(new Error('Some generated error'));
@@ -56,9 +49,7 @@ export function Root() {
       <div className="App">
         <div className="header">
           <div className="Logo"></div>
-          <searchContext.Provider value={search}>
-            <SearchForm callback={handleForm} />
-          </searchContext.Provider>
+          <SearchForm />
           <div className="Img"></div>
         </div>
         {load ? <Loading /> : null}
