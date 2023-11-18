@@ -1,32 +1,12 @@
-const mockPokemon: Pokemon = {
-  name: 'Pikachu',
-  id: 1,
-  height: 10,
-  weight: 10,
-  sprites: { front_default: '', back_default: '' },
-  species: { name: '', url: '' },
-  types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-  stats: [
-    {
-      base_stat: 1,
-      effort: 1,
-      stat: {
-        name: 'hp',
-        url: '',
-      },
-    },
-  ],
-};
-
+import { mockPokemon } from '../api/mockPokemon';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { Pokemon } from '../api/types';
 import {
   MemoryRouter,
   RouterProvider,
   createMemoryRouter,
 } from 'react-router-dom';
-import { Root } from './Root';
+import { Root } from './Root0000';
 import { routerConfig } from '../routerConfig';
 
 const mockUseNavigate = jest.fn();

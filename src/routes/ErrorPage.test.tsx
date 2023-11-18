@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import '@testing-library/react';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './ErrorPage000';
 
 describe('Loading page', () => {
   it('renders error page', () => {

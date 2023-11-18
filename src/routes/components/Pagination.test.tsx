@@ -1,201 +1,10 @@
-const pokemons: Pokemon[] = [
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Pikachu',
-    id: 1,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Caterpie',
-    id: 2,
-    height: 10,
-    weight: 10,
-    sprites: { front_default: '', back_default: '' },
-    species: { name: '', url: '' },
-    types: [{ slot: 1, type: { name: 'normal', url: '' } }],
-    stats: [
-      {
-        base_stat: 1,
-        effort: 1,
-        stat: {
-          name: 'hp',
-          url: '',
-        },
-      },
-    ],
-  },
-];
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { pokemonsContext } from '../Root';
-import Pagination from './Pagination';
+import { pokemonsContext } from '../Root0000';
+import Pagination from './Pagination0000';
 import { Pokemon } from '../../api/types';
+import { mockPokemon } from '../../api/mockPokemon';
 
 const mockUseNavigate = jest.fn();
 
@@ -208,14 +17,27 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
+beforeEach(() => {
+  const pokemons: Pokemon[] = [
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+    mockPokemon,
+  ];
+  render(
+    <pokemonsContext.Provider value={pokemons}>
+      <Pagination />
+    </pokemonsContext.Provider>
+  );
+});
 
 describe('Pagination ', () => {
   it('pagination renders correctly', async () => {
-    render(
-      <pokemonsContext.Provider value={pokemons}>
-        <Pagination />
-      </pokemonsContext.Provider>
-    );
     const cardsPerPage = screen.getByText('Cards per page');
     const next = screen.getByText('next');
     const prev = screen.getByText('prev');
@@ -226,12 +48,6 @@ describe('Pagination ', () => {
     });
   });
   it('Component updates URL query parameter when number per page changes', async () => {
-    render(
-      <pokemonsContext.Provider value={pokemons}>
-        <Pagination />
-      </pokemonsContext.Provider>
-    );
-
     const perPage40 = screen.getByText('40');
     const perPage10 = screen.getByText('10');
 
@@ -246,11 +62,6 @@ describe('Pagination ', () => {
     });
   });
   it('Make sure the component updates URL query parameter when page changes', async () => {
-    render(
-      <pokemonsContext.Provider value={pokemons}>
-        <Pagination />
-      </pokemonsContext.Provider>
-    );
     const next = screen.getByText('next');
     const prev = screen.getByText('prev');
 

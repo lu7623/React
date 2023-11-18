@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
-import { pokemonsContext } from '../Root';
+import { pokemonsContext } from '../Root0000';
 
 export default function Pagination() {
   const pokemons = useContext(pokemonsContext);
