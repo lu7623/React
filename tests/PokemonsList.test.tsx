@@ -1,10 +1,10 @@
-import { Pokemon } from '../../api/types';
+import { Pokemon } from '../api/types';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import PokemonsList from './PokemonsList';
+import PokemonsList from '../routes/components/PokemonsList';
 
 const mockUseNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -32,7 +32,7 @@ jest.mock('../../api/getPokemons', () => ({
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
 
 import '@testing-library/jest-dom';
-import { mockPokemon } from '../../api/mockPokemon';
+import { mockPokemon } from '../api/mockPokemon';
 
 describe('Pokemons list ', () => {
   it('Check that an appropriate message is displayed if no cards are present', async () => {

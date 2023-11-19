@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import PokemonDetails from '../PokemonDetails';
+import PokemonDetails from '../routes/PokemonDetails';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import PokemonsList from './PokemonsList';
-import PokemonCard from './PokemonCard';
-import { mockPokemon } from '../../api/mockPokemon';
+import PokemonsList from '../routes/components/PokemonsList';
+import PokemonCard from '../routes/components/PokemonCard';
+import { mockPokemon } from '../api/mockPokemon';
 
 const mockUseNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -20,21 +20,34 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-const fakeGetPokemons = jest.fn().mockReturnValue(mockPokemon);
-jest.mock('../../api/getPokemons', () => ({
-  getDetails: jest
-    .fn()
-    .mockReturnValue(
-      'When several of these POKéMON gather, their electricity could build and cause lightning storms.'
-    ),
-  getPokemon: () => fakeGetPokemons,
-}));
+const mockGetDetails = jest
+  .fn()
+  .mockReturnValue({
+    data: 'When several of these POKéMON gather, their electricity could build and cause lightning storms.',
+    isLoading: false,
+  });
+beforeAll(() => {
+  jest.mock('../../services/pokemonService', () => ({
+    pokemonAPI: {
+      useGetPokemonByNameQuery: jest
+        .fn()
+        .mockReturnValue({ data: mockPokemon, isLoading: false }),
+      useGetPokemonDetailsQuery: () => mockGetDetails,
+      useGetPokemonsByPageQuery: jest
+        .fn()
+        .mockReturnValue({
+          isLoading: false,
+          data: [{ name: mockPokemon.name, url: '' }],
+        }),
+    },
+  }));
+});
 
 describe('Pokemon card view', () => {
   it('Ensure that the card component renders the relevant card data', async () => {
     render(
       <MemoryRouter initialEntries={['/page/1/']}>
-        <PokemonCard pokemon={mockPokemon} />
+        <PokemonCard pokemonName={mockPokemon.name} />
       </MemoryRouter>
     );
 
@@ -58,13 +71,14 @@ describe('Pokemon card behavior', () => {
   beforeEach(() => {
     render(
       <MemoryRouter initialEntries={['/page/1/']}>
-        <pokemonsContext.Provider value={[mockPokemon]}>
-          <Routes>
-            <Route path="/page/1" element={<PokemonsList />}>
-              <Route path="details/1" element={<PokemonDetails />} />
-            </Route>
-          </Routes>
-        </pokemonsContext.Provider>
+        <Routes>
+          <Route
+            path="/page/1"
+            element={<PokemonsList pokemonNames={[mockPokemon.name]} />}
+          >
+            <Route path="details/1" element={<PokemonDetails />} />
+          </Route>
+        </Routes>
       </MemoryRouter>
     );
   });
@@ -75,7 +89,7 @@ describe('Pokemon card behavior', () => {
       fireEvent.click(card);
       const details = screen.getByTestId('details');
       expect(details).toBeInTheDocument();
-      expect(fakeGetPokemons).toHaveBeenCalled();
+      expect(mockGetDetails).toHaveBeenCalled();
     });
   });
   it('Check that clicking triggers an additional API call to fetch detailed information.', async () => {
@@ -83,7 +97,7 @@ describe('Pokemon card behavior', () => {
 
     fireEvent.click(btn);
     await waitFor(() => {
-      expect(fakeGetPokemons).toHaveBeenCalled();
+      expect(mockGetDetails).toHaveBeenCalled();
     });
   });
 });

@@ -21,10 +21,10 @@ const mockPokemon: Pokemon = {
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Pokemon } from '../api/types';
-import PokemonDetails from './PokemonDetails';
+import PokemonDetails from '../routes/PokemonDetails';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from './Root';
-import PokemonsList from './components/PokemonsList';
+import { pokemonsContext } from '../routes/Root';
+import PokemonsList from '../routes/components/PokemonsList';
 
 const mockUseNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({

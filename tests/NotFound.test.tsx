@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { routerConfig } from '../../routerConfig';
-import NotFound from './NotFound';
+import { routerConfig } from '../routerConfig';
+import NotFound from '../routes/components/NotFound';
 
 const mockUseNavigate = jest.fn().mockReturnValue('');
 jest.mock('react-router-dom', () => ({

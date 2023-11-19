@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { pokemonAPI } from '../services/pokemonService';
 import PokemonsList from './components/PokemonsList';
+import Loading from './components/Loading';
 
 export function PokemonPage() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export function PokemonPage() {
   const [page, setPage] = useState(pageId ? Number(pageId) : 1);
   const [value, setValue] = useState('20');
 
-  const { data } = pokemonAPI.useGetPokemonsByPageQuery({
+  const { data, isLoading } = pokemonAPI.useGetPokemonsByPageQuery({
     pageNum: page,
     qty: Number(value),
   });
@@ -91,7 +92,7 @@ export function PokemonPage() {
           <label htmlFor="40">40</label>
         </div>
       </div>
-      {pokemonNames && <PokemonsList pokemonNames={pokemonNames} />}
+      {isLoading ? <Loading /> : <PokemonsList pokemonNames={pokemonNames} />}
     </>
   );
 }

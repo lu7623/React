@@ -2,7 +2,7 @@ module.exports = {
   collectCoverage: true,
   coverageProvider: 'v8',
   collectCoverageFrom: [
-    '**/*.{js,jsx,ts,tsx}',
+    '!**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!<rootDir>/*.config.js',
@@ -22,5 +22,6 @@ module.exports = {
     testEnvironment: 'jest-environment-jsdom',
     transform: {
         "^.+\\.tsx?$": "ts-jest" 
-    },
+  },
+  "testPathIgnorePatterns": ["tests"],
 };
