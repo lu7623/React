@@ -30,6 +30,7 @@ export const pokemonAPI = createApi({
           offset: (pageNum - 1) * qty,
         },
       }),
+      transformResponse: (resp: { results: PokemonType[] }) => resp.results,
     }),
   }),
 });

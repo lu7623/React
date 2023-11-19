@@ -1,8 +1,11 @@
 import PokemonCard from './PokemonCard';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Pokemon } from '../../api/types';
 
-export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
+export default function PokemonsList({
+  pokemonNames,
+}: {
+  pokemonNames: string[];
+}) {
   const navigate = useNavigate();
   const { pageId, detailsId } = useParams();
   const { search } = useLocation();
@@ -21,11 +24,11 @@ export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
             detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
           }
         >
-          {pokemons.length === 0 ? (
+          {pokemonNames.length === 0 ? (
             <p>No results found</p>
           ) : (
-            pokemons.map((p) => {
-              return <PokemonCard key={p.name} pokemon={p} />;
+            pokemonNames.map((p) => {
+              return <PokemonCard key={p} pokemonName={p} />;
             })
           )}
         </div>
