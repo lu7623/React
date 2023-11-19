@@ -26,6 +26,7 @@ export function PokemonPage() {
 
   function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
+    setPage(1);
   }
 
   useEffect(() => {

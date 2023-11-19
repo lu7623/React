@@ -1,3 +1,4 @@
+import { pokemonAPI } from '../../services/pokemonService';
 import PokemonCard from './PokemonCard';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ export default function PokemonsList({
 }) {
   const navigate = useNavigate();
   const { pageId, detailsId } = useParams();
+  const { error } = pokemonAPI.useGetPokemonByNameQuery(pokemonNames[0]);
   const { search } = useLocation();
   const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
@@ -24,7 +26,7 @@ export default function PokemonsList({
             detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
           }
         >
-          {pokemonNames.length === 0 ? (
+          {error ? (
             <p>No results found</p>
           ) : (
             pokemonNames.map((p) => {
