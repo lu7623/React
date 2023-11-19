@@ -1,22 +1,11 @@
-import { useEffect, useState } from 'react';
 import { Pokemon } from '../../api/types';
 import { Link, useLocation } from 'react-router-dom';
-import { getDetails } from '../../api/getPokemons';
+import { pokemonAPI } from '../../services/pokemonService';
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
-  const [desc, setDesc] = useState('');
+  const { data: desc } = pokemonAPI.useGetPokemonDetailsQuery(pokemon.name);
   const { pathname, search } = useLocation();
   const url = `${pathname}/details/${pokemon.id}${search}`;
-
-  useEffect(() => {
-    async function fetchData(pokemon: Pokemon) {
-      const data = await getDetails(pokemon);
-      setDesc(data);
-    }
-
-    fetchData(pokemon);
-  }, [desc, pokemon]);
-
   return (
     <>
       <Link to={url}>

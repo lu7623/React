@@ -30,6 +30,7 @@ export interface PokemonTypeItem {
 }
 
 export interface PokemonDesc {
+  flavor_text: string;
   language: {
     name: string;
   };

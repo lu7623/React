@@ -1,31 +1,16 @@
-import { Pokemon } from '../api/types';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import Loading from './components/Loading';
-import { getDetails, getPokemon } from '../api/getPokemons';
-import { useEffect, useState } from 'react';
+import { pokemonAPI } from '../services/pokemonService';
 
 export default function PokemonDetails() {
-  const [details, setDetails] = useState('');
-  const [load, setLoad] = useState(false);
   const { pageId, detailsId } = useParams();
   const { search } = useLocation();
-  const [pokemon, setPokemon] = useState<Pokemon>();
-
-  useEffect(() => {
-    async function fetchData(pokemonId: string) {
-      setLoad(true);
-      const newPokemon = await getPokemon(pokemonId);
-      setPokemon(newPokemon);
-      const data = await getDetails(newPokemon);
-      setDetails(data);
-      setLoad(false);
-    }
-
-    if (detailsId) {
-      fetchData(detailsId);
-    }
-  }, [detailsId]);
-
+  const { data: pokemon, isLoading } = pokemonAPI.useGetPokemonByNameQuery(
+    detailsId ? detailsId : ''
+  );
+  const { data: desc } = pokemonAPI.useGetPokemonDetailsQuery(
+    pokemon ? pokemon.name : ''
+  );
   const url = pageId ? `/page/${pageId}${search}` : '..';
   return (
     <>
@@ -38,7 +23,7 @@ export default function PokemonDetails() {
           <Link className="closeBtn" to={url} data-testid="close"></Link>
         </div>
 
-        {load ? (
+        {isLoading ? (
           <Loading />
         ) : (
           pokemon && (
@@ -74,7 +59,7 @@ export default function PokemonDetails() {
                   width={200}
                 />
               </div>
-              <p>{details ? details : ''}</p>
+              <p>{desc ? desc : ''}</p>
               <h3>Stats:</h3>
               <div className="stat">
                 {pokemon.stats.map((stat) => (

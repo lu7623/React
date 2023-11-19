@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { pokemonsContext } from './Root';
 import { PokemonPage } from './PokemonPage';
 import { mockPokemon } from '../api/mockPokemon';
 
