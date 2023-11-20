@@ -4,8 +4,10 @@ import { Pokemon } from '../../api/types';
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const router = useRouter();
-
-  const url = `${router.basePath}/details/${pokemon?.id}`;
+  const pageId = router.query.pageId;
+  const url = pageId
+    ? `/page/${pageId}?details=${pokemon?.id}`
+    : `/?details=${pokemon?.id}`;
   return (
     <>
       <Link href={url}>

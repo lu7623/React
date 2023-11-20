@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { mockPokemon } from '../../api/mockPokemon';
 import Details from '../components/Details';
 import Pagination from '../components/Pagination';
@@ -26,11 +27,13 @@ export default function PokemonPage() {
     mockPokemon,
     mockPokemon,
   ];
+  const router = useRouter();
+  const detailsId = router.query.details;
   return (
     <>
       <Pagination pokemons={pokes} />
       <PokemonsList pokemons={pokes} />
-      <Details pokemon={mockPokemon} />
+      {detailsId && <Details pokemon={mockPokemon} />}
     </>
   );
 }

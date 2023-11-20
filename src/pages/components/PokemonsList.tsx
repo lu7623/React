@@ -4,11 +4,16 @@ import { Pokemon } from '../../api/types';
 
 export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
   const router = useRouter();
-
-  const detailsId = router.query.detailsId;
+  const detailsId = router.query.details;
+  const pageId = router.query.pageId;
   return (
     <>
-      <div style={{ display: 'flex' }} onClick={() => {}}>
+      <div
+        style={{ display: 'flex' }}
+        onClick={() => {
+          detailsId && router.push(pageId ? `/page/${pageId}` : '/');
+        }}
+      >
         <div
           className="cardContainer"
           style={
