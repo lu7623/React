@@ -17,6 +17,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           </div>
         </div>
         <Component {...pageProps} />
+        <button
+          className="error"
+          onClick={() => {
+            throw new Error('Some generated error');
+          }}
+        >
+          Error
+        </button>
       </Provider>
     </>
   );
