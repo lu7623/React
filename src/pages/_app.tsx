@@ -1,17 +1,25 @@
+import { Provider } from 'react-redux';
+import SearchForm from '../components/SearchForm';
+import { wrapper } from '../store/store';
 import './styles.css';
 import type { AppProps } from 'next/app';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
+  const { store } = wrapper.useWrappedStore(pageProps);
   return (
     <>
-      <div className="App">
-        <div className="header">
-          <div className="Logo"></div>
-
-          <div className="Img"></div>
+      <Provider store={store}>
+        <div className="App">
+          <div className="header">
+            <div className="Logo"></div>
+            <SearchForm />
+            <div className="Img"></div>
+          </div>
         </div>
-      </div>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
+      </Provider>
     </>
   );
 }
+
+export default wrapper.withRedux(MyApp);

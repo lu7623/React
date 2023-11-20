@@ -1,25 +1,19 @@
+import { useRouter } from 'next/router';
 import { pokemonAPI } from '../services/pokemonService';
 import PokemonCard from './PokemonCard';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export default function PokemonsList({
   pokemonNames,
 }: {
   pokemonNames: string[];
 }) {
-  const navigate = useNavigate();
-  const { pageId, detailsId } = useParams();
+  const router = useRouter();
+
   const { error } = pokemonAPI.useGetPokemonByNameQuery(pokemonNames[0]);
-  const { search } = useLocation();
-  const url = pageId ? `/page/${pageId}${search}` : '..';
+  const detailsId = router.query.detailsId;
   return (
     <>
-      <div
-        style={{ display: 'flex' }}
-        onClick={() => {
-          detailsId && navigate(url);
-        }}
-      >
+      <div style={{ display: 'flex' }} onClick={() => {}}>
         <div
           className="cardContainer"
           style={
@@ -34,7 +28,6 @@ export default function PokemonsList({
             })
           )}
         </div>
-        <Outlet />
       </div>
     </>
   );

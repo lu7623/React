@@ -28,7 +28,6 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
   margin: 20px;
@@ -212,7 +211,7 @@ input[type='radio']:disabled + label {
   width: 100%;
   text-align: start;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin: 20px 30px 0 0;
   cursor: pointer;
 }

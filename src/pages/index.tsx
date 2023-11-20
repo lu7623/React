@@ -1,3 +1,10 @@
+import { mockPokemon } from '../api/mockPokemon';
+import Pagination from '../components/Pagination';
+
 export default function Page() {
-  return <h1>Hello, Next.js!</h1>;
+  return (
+    <>
+      <Pagination pokemons={[mockPokemon]} />
+    </>
+  );
 }

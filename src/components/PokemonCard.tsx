@@ -1,6 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
 import { pokemonAPI } from '../services/pokemonService';
 import Loading from './Loading';
+import { useRouter } from 'next/router';
 
 export default function PokemonCard({ pokemonName }: { pokemonName: string }) {
   const { isLoading, data: pokemon } =
@@ -8,11 +9,12 @@ export default function PokemonCard({ pokemonName }: { pokemonName: string }) {
   const { data: desc } = pokemonAPI.useGetPokemonDetailsQuery(
     pokemon ? pokemon.name : ''
   );
-  const { pathname, search } = useLocation();
-  const url = `${pathname}/details/${pokemon?.id}${search}`;
+  const router = useRouter();
+
+  const url = `${router.basePath}/details/${pokemon?.id}`;
   return (
     <>
-      <Link to={url}>
+      <Link href={url}>
         <div className="card" data-testid="card">
           {isLoading ? (
             <Loading />
