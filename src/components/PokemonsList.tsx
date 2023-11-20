@@ -1,15 +1,10 @@
 import { useRouter } from 'next/router';
-import { pokemonAPI } from '../services/pokemonService';
 import PokemonCard from './PokemonCard';
+import { Pokemon } from '../api/types';
 
-export default function PokemonsList({
-  pokemonNames,
-}: {
-  pokemonNames: string[];
-}) {
+export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
   const router = useRouter();
 
-  const { error } = pokemonAPI.useGetPokemonByNameQuery(pokemonNames[0]);
   const detailsId = router.query.detailsId;
   return (
     <>
@@ -20,11 +15,11 @@ export default function PokemonsList({
             detailsId ? { opacity: '40%', width: '50%' } : { width: '100%' }
           }
         >
-          {error ? (
+          {pokemons.length === 0 ? (
             <p>No results found</p>
           ) : (
-            pokemonNames.map((p) => {
-              return <PokemonCard key={p} pokemonName={p} />;
+            pokemons.map((p) => {
+              return <PokemonCard key={p.name} pokemon={p} />;
             })
           )}
         </div>
