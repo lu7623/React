@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Pokemon } from '../api/types';
+import { Pokemon } from '../../api/types';
 import Link from 'next/link';
 
 export default function Details({ pokemon }: { pokemon: Pokemon }) {

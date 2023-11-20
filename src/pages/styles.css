@@ -101,6 +101,9 @@ p {
   background-color: rgba(247, 222, 184, 0.773);
   border-radius: 10px;
   margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .type {

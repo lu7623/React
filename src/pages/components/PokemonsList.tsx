@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import PokemonCard from './PokemonCard';
-import { Pokemon } from '../api/types';
+import { Pokemon } from '../../api/types';
 
 export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {
   const router = useRouter();

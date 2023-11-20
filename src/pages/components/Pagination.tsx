@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { Pokemon } from '../api/types';
-import { useAppDispatch, useAppSelector } from '../hooks/custom';
-import { perPageSlice } from '../store/reducers/perPageSlice';
+import { Pokemon } from '../../api/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/custom';
+import { perPageSlice } from '../../store/reducers/perPageSlice';
 
 export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
-  const { qty } = useAppSelector((state) => state.perPageSlice);
+  const { qty } = useAppSelector((state) => state.perPageReducer);
+  const { searchStr } = useAppSelector((state) => state.searchReducer);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { newLimit } = perPageSlice.actions;
@@ -24,7 +25,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
   }
 
   useEffect(() => {
-    router.push(`/page/1`);
+    searchStr === '' && router.push(`/page/1`);
   }, [value]);
 
   return (
