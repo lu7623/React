@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/custom';
-import { searchSlice } from '../../store/reducers/searchSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/custom';
+import { searchSlice } from '../store/reducers/searchSlice';
 
 export default function SearchForm() {
   const { searchStr } = useAppSelector((state) => state.searchReducer);

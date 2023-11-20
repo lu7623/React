@@ -1,9 +1,9 @@
 import './App.css';
 import { useState } from 'react';
-import SearchForm from './components/SearchForm';
+import SearchForm from '../components/SearchForm';
 import { PokemonPage } from './PokemonPage';
 import { useAppSelector } from '../hooks/custom';
-import PokemonsList from './components/PokemonsList';
+import PokemonsList from '../components/PokemonsList';
 
 export function Root() {
   const [isError, setIsError] = useState<Error>();

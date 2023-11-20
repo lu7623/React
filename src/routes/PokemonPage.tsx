@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { pokemonAPI } from '../services/pokemonService';
-import PokemonsList from './components/PokemonsList';
-import Loading from './components/Loading';
+import PokemonsList from '../components/PokemonsList';
+import Loading from '../components/Loading';
 
 export function PokemonPage() {
   const navigate = useNavigate();

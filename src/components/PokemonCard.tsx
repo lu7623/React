@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { pokemonAPI } from '../../services/pokemonService';
+import { pokemonAPI } from '../services/pokemonService';
 import Loading from './Loading';
 
 export default function PokemonCard({ pokemonName }: { pokemonName: string }) {

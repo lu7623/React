@@ -1,4 +1,4 @@
-import { pokemonAPI } from '../../services/pokemonService';
+import { pokemonAPI } from '../services/pokemonService';
 import PokemonCard from './PokemonCard';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
