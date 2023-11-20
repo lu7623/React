@@ -1,11 +1,16 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { Pokemon } from '../api/types';
+import { useAppDispatch, useAppSelector } from '../hooks/custom';
+import { perPageSlice } from '../store/reducers/perPageSlice';
 
 export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
+  const { qty } = useAppSelector((state) => state.perPageSlice);
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { newLimit } = perPageSlice.actions;
   const pageId = router.query.pageId;
-  const [value, setValue] = useState('20');
+  const [value, setValue] = useState(qty);
   const maxPage = Math.ceil(1200 / Number(value));
   const nextPage =
     Number(pageId) < maxPage && pokemons.length !== 1
@@ -15,10 +20,11 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
 
   function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
+    dispatch(newLimit(event.target.value));
   }
 
   useEffect(() => {
-    router.push(`/page/1?qty=${value}`);
+    router.push(`/page/1`);
   }, [value]);
 
   return (
@@ -28,7 +34,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
           <button
             disabled={prevPage === 0 || pokemons.length === 1}
             className="navBtn"
-            onClick={() => router.push(`/page/${prevPage}?qty=${value}`)}
+            onClick={() => router.push(`/page/${prevPage}`)}
           >
             prev
           </button>
@@ -36,7 +42,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
           <button
             disabled={!nextPage}
             className="navBtn"
-            onClick={() => router.push(`/page/${nextPage}?qty=${value}`)}
+            onClick={() => router.push(`/page/${nextPage}`)}
           >
             next
           </button>
