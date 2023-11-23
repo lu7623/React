@@ -17,7 +17,9 @@ export default function SearchForm() {
     event.preventDefault();
     localStorage.setItem('search', search);
     dispatch(newSearch(search));
-    search === '' ? router.push('/page/1') : router.push('/');
+    search === ''
+      ? router.push('/list/1?qty=20')
+      : router.push(`/pokemon/${search}`);
   };
 
   return (

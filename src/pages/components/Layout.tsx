@@ -10,16 +10,17 @@ export default function Layout({ children }: PropsWithChildren) {
           <SearchForm />
           <div className="Img"></div>
         </div>
+
+        {children}
+        <button
+          className="error"
+          onClick={() => {
+            throw new Error('Some generated error');
+          }}
+        >
+          Error
+        </button>
       </div>
-      {children}
-      <button
-        className="error"
-        onClick={() => {
-          throw new Error('Some generated error');
-        }}
-      >
-        Error
-      </button>
     </>
   );
 }

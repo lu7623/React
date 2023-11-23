@@ -3,12 +3,11 @@ export default function Loading() {
     <>
       <div
         style={{
-          position: 'absolute',
-          left: 'calc(50% - 100px)',
-          top: '300px',
+          width: '100 %',
+          height: '500px',
         }}
       >
-        <img src="/spinner.gif" alt="loading" style={{ opacity: '100%' }} />
+        <img src="/spinner.gif" alt="loading" />
       </div>
     </>
   );

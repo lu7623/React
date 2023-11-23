@@ -1,29 +1,28 @@
 import { GetServerSideProps } from 'next';
 import { Pokemon } from '../../api/types';
-import PokemonCard from '../components/PokemonCard';
 import { getDetails, getPokemon } from '../../api/getPokemons';
+import PokemonPage from '../components/PokemonPage';
 
 interface PokemontProps {
   pokemon: Pokemon;
 }
 
 export default function PokemonFound({ pokemon }: PokemontProps) {
-  return <PokemonCard pokemon={pokemon} />;
+  return <PokemonPage pokemons={[pokemon]} />;
 }
 
 export const getServerSideProps: GetServerSideProps<{
   pokemon: Pokemon;
 }> = async (context) => {
-  const id = parseInt(context.params?.id as string) || 1;
-
+  const id = context.params?.id as string;
   const pokemon = await getPokemon(String(id));
-  const desc = await getDetails(pokemon);
-  pokemon.description = desc;
   if (pokemon === null) {
     return {
       notFound: true,
     };
   }
+  const desc = await getDetails(pokemon);
+  pokemon.description = desc;
 
   return {
     props: {

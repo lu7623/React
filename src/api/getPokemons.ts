@@ -2,11 +2,14 @@ import { Pokemon, PokemonDesc, PokemonPages, PokemonType } from './types';
 
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 
-export async function getPokemon(searchStr: string): Promise<Pokemon> {
-  const newPokemon = await fetch(`${BASE_URL}/${searchStr}`).then((response) =>
-    response.json()
-  );
-  return newPokemon;
+export async function getPokemon(searchStr: string): Promise<Pokemon | null> {
+  try {
+    return await fetch(`${BASE_URL}/${searchStr}`).then((response) =>
+      response.json()
+    );
+  } catch {
+    return null;
+  }
 }
 
 export async function getPokemonPage(
