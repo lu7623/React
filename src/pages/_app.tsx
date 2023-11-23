@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Loading from './components/Loading';
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   const { store } = wrapper.useWrappedStore(pageProps);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -36,5 +36,3 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-export default wrapper.withRedux(MyApp);
