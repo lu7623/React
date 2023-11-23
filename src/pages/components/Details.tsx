@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
 import { Pokemon } from '../../api/types';
-import Link from 'next/link';
 
-export default function Details({ pokemon }: { pokemon: Pokemon }) {
-  const router = useRouter();
-  const pageId = router.query.pageId;
-
-  const url = pageId ? `/page/${pageId}` : '..';
+export default function Details({
+  pokemon,
+  callback,
+}: {
+  pokemon: Pokemon;
+  callback: () => void;
+}) {
   return (
     <>
       <div
@@ -15,7 +15,7 @@ export default function Details({ pokemon }: { pokemon: Pokemon }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="close">
-          <Link className="closeBtn" href={url} data-testid="close"></Link>
+          <div className="closeBtn" onClick={() => callback()}></div>
         </div>
         <h2>{pokemon.name.toUpperCase()}</h2>
         <h3>

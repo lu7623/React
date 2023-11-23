@@ -1,26 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/custom';
 import { searchSlice } from '../../store/reducers/searchSlice';
 import { useRouter } from 'next/router';
 
 export default function SearchForm() {
-  const { searchStr } = useAppSelector((state) => state.searchReducer);
   const dispatch = useAppDispatch();
   const { newSearch } = searchSlice.actions;
+  const { searchStr } = useAppSelector((state) => state.searchReducer);
   const router = useRouter();
   const [search, setSearch] = useState(searchStr);
+
+  useEffect(() => {
+    const savedSearch = localStorage.getItem('search');
+    if (savedSearch) {
+      dispatch(newSearch(savedSearch));
+      setSearch(savedSearch);
+      savedSearch === ''
+        ? router.push('/page/1?qty=20')
+        : router.push(`/pokemon/${savedSearch}`);
+    } else {
+      search === ''
+        ? router.push('/page/1?qty=20')
+        : router.push(`/pokemon/${search}`);
+    }
+  }, []);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    localStorage.setItem('search', search);
+
     dispatch(newSearch(search));
     search === ''
-      ? router.push('/list/1?qty=20')
+      ? router.push('/page/1?qty=20')
       : router.push(`/pokemon/${search}`);
   };
+
+  useEffect(() => {
+    localStorage.setItem('search', search);
+  }, [search]);
 
   return (
     <>
