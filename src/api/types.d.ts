@@ -7,6 +7,7 @@ export interface Pokemon {
   species: PokemonSpecies;
   types: PokemonTypeItem[];
   stats: PokemonStatItem[];
+  description?: string;
 }
 
 export interface PokemonType {

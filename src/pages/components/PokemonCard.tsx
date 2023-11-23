@@ -37,6 +37,7 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
               alt="pokemon"
               width={150}
             />
+            <p>{pokemon.description}</p>
           </>
         </div>
       </Link>
