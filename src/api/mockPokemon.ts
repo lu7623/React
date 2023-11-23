@@ -2,6 +2,8 @@ import { Pokemon } from './types';
 
 export const mockPokemon: Pokemon = {
   name: 'Pikachu',
+  description:
+    'When several of these POKéMON gather, their electricity could build and cause lightning storms.',
   id: 1,
   height: 10,
   weight: 10,

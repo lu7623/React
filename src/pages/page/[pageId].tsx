@@ -7,7 +7,7 @@ interface PokemonsProps {
   pokemons: Pokemon[];
 }
 
-export default function PokemonPageFound({ pokemons }: PokemonsProps) {
+export default function PokemonListFound({ pokemons }: PokemonsProps) {
   return <PokemonPage pokemons={pokemons} />;
 }
 

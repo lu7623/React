@@ -15,7 +15,11 @@ export default function Details({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="close">
-          <div className="closeBtn" onClick={() => callback()}></div>
+          <div
+            data-testid="close"
+            className="closeBtn"
+            onClick={() => callback()}
+          ></div>
         </div>
         <h2>{pokemon.name.toUpperCase()}</h2>
         <h3>
@@ -48,6 +52,7 @@ export default function Details({
             width={200}
           />
         </div>
+        <p>{pokemon.description}</p>
         <h3>Stats:</h3>
         <div className="stat">
           {pokemon.stats.map((stat) => (
