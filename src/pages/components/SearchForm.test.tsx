@@ -1,6 +1,20 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import SearchForm from '../routes/components/SearchForm';
+import SearchForm from './SearchForm';
+import { useRouter } from 'next/router';
+
+jest.mock('next/router', () => ({
+  __esModule: true,
+  useRouter: jest.fn(),
+}));
+
+const mockRouter = {
+  push: jest.fn(),
+  query: {
+    pageId: '1',
+    qty: '20',
+  },
+};
+(useRouter as jest.Mock).mockReturnValue(mockRouter);
 
 export class LocalStorageMock {
   store: { [key: string]: string };
@@ -34,17 +48,14 @@ export class LocalStorageMock {
 
 global.localStorage = new LocalStorageMock();
 
-jest.mock('react-router-dom', () => ({
-  useContext: jest.fn(),
-  useParams: jest.fn().mockReturnValue({ pageId: '1' }),
-  Outlet: () => {
-    null;
+jest.mock('../../hooks/custom', () => ({
+  useAppDispatch: () => jest.fn(),
+  useAppSelector: () => jest.fn(),
+}));
+jest.mock('../../store/reducers/perPageSlice', () => ({
+  perPageSlice: {
+    actions: { newLimit: jest.fn() },
   },
-  Link: () => {
-    null;
-  },
-  useNavigate: jest.fn(),
-  useLocation: jest.fn().mockReturnValue({ search: '' }),
 }));
 
 describe('Search form ', () => {
