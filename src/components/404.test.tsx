@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import NotFound from './404';
+import NotFound from '../pages/404';
 import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
