@@ -19,11 +19,7 @@ const mockRouter = {
 
 jest.mock('../hooks/custom', () => ({
   useAppDispatch: () => jest.fn(),
-}));
-jest.mock('../store/reducers/perPageSlice', () => ({
-  perPageSlice: {
-    actions: { newLimit: jest.fn() },
-  },
+  useAppSelector: jest.fn().mockReturnValue({ qty: '20' }),
 }));
 
 describe('Pagination ', () => {
@@ -44,7 +40,7 @@ describe('Pagination ', () => {
     const perPage10 = screen.getByLabelText('10');
     fireEvent.click(perPage10);
     await waitFor(() => {
-      expect(mockRouter.push).toHaveBeenCalledWith('/page/1?qty=10');
+      expect(mockRouter.push).toHaveBeenCalledWith('/page/1');
     });
   });
   it('Make sure the component updates URL query parameter when page changes', async () => {
@@ -54,7 +50,7 @@ describe('Pagination ', () => {
     fireEvent.click(next);
 
     await waitFor(() => {
-      expect(mockRouter.push).toHaveBeenCalledWith('/page/2?qty=20');
+      expect(mockRouter.push).toHaveBeenCalledWith('/page/2');
 
       expect(prev).toBeDisabled();
     });

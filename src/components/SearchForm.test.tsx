@@ -50,12 +50,7 @@ global.localStorage = new LocalStorageMock();
 
 jest.mock('../hooks/custom', () => ({
   useAppDispatch: () => jest.fn(),
-  useAppSelector: () => jest.fn(),
-}));
-jest.mock('../store/reducers/perPageSlice', () => ({
-  perPageSlice: {
-    actions: { newLimit: jest.fn() },
-  },
+  useAppSelector: jest.fn().mockReturnValue({ qty: '20', searchStr: '' }),
 }));
 
 describe('Search form ', () => {

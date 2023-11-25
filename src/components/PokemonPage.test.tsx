@@ -14,6 +14,7 @@ jest.mock('next/router', () => ({
 
 jest.mock('../hooks/custom', () => ({
   useAppDispatch: () => jest.fn(),
+  useAppSelector: jest.fn().mockReturnValue({ qty: '20' }),
 }));
 jest.mock('../store/reducers/perPageSlice', () => ({
   perPageSlice: {
