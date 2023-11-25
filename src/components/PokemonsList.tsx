@@ -1,6 +1,6 @@
 import PokemonCard from './PokemonCard';
 import { useState } from 'react';
-import { Pokemon } from '../../api/types';
+import { Pokemon } from '../api/types';
 import Details from './Details';
 
 export default function PokemonsList({ pokemons }: { pokemons: Pokemon[] }) {

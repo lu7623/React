@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/custom';
-import { searchSlice } from '../../store/reducers/searchSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/custom';
+import { searchSlice } from '../store/reducers/searchSlice';
 import { useRouter } from 'next/router';
 
 export default function SearchForm() {

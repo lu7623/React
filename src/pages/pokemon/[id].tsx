@@ -1,32 +1,59 @@
-import { GetServerSideProps } from 'next';
-import { Pokemon } from '../../api/types';
-import { getDetails, getPokemon } from '../../api/getPokemons';
-import PokemonPage from '../components/PokemonPage';
+import {
+  getPokemonByName,
+  getPokemonDetails,
+  getRunningQueriesThunk,
+  useGetPokemonDetailsQuery,
+} from '../../api/PokemonApi';
 
-interface PokemontProps {
-  pokemon: Pokemon;
+import { wrapper } from '../../store/store';
+
+import { useGetPokemonByNameQuery } from '../../api/PokemonApi';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useRouter } from 'next/dist/client/router';
+import PokemonPage from '../../components/PokemonPage';
+
+export default function Pok() {
+  const router = useRouter();
+
+  const id = router.query.id;
+  const result = useGetPokemonByNameQuery(
+    typeof id === 'string' ? id : skipToken,
+    {
+      skip: router.isFallback,
+    }
+  );
+  const { data: pokemon } = result;
+
+  const desc = useGetPokemonDetailsQuery(
+    typeof id === 'string' ? id : skipToken,
+    {
+      skip: router.isFallback,
+    }
+  );
+  const { data: description } = desc;
+
+  const newPokemon = pokemon
+    ? Object.assign({}, pokemon, { description: description })
+    : null;
+  return (
+    <>
+      <PokemonPage pokemons={newPokemon ? [newPokemon] : []} />
+    </>
+  );
 }
 
-export default function PokemonFound({ pokemon }: PokemontProps) {
-  return <PokemonPage pokemons={[pokemon]} />;
-}
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (context) => {
+    const id = context.params?.id;
+    if (typeof id === 'string') {
+      store.dispatch(getPokemonByName.initiate(id));
+      store.dispatch(getPokemonDetails.initiate(id));
+    }
 
-export const getServerSideProps: GetServerSideProps<{
-  pokemon: Pokemon;
-}> = async (context) => {
-  const id = context.params?.id as string;
-  const pokemon = await getPokemon(String(id));
-  if (pokemon === null) {
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
     return {
-      notFound: true,
+      props: {},
     };
   }
-  const desc = await getDetails(pokemon);
-  pokemon.description = desc;
-
-  return {
-    props: {
-      pokemon,
-    },
-  };
-};
+);

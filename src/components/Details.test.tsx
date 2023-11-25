@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import PokemonsList from './PokemonsList';
-import PokemonCard from './PokemonCard';
-import { mockPokemon } from '../../api/mockPokemon';
+import Details from './Details';
+import { mockPokemon } from '../api/mockPokemon';
 
-describe('Pokemon card view', () => {
-  it('Ensure that the card component renders the relevant card data', async () => {
-    render(<PokemonCard pokemon={mockPokemon} callback={() => {}} />);
+describe('Pokemon details ', () => {
+  it('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    render(<Details pokemon={mockPokemon} callback={() => {}} />);
 
     await waitFor(() => {
       const name = screen.getByText('PIKACHU');
@@ -14,23 +14,26 @@ describe('Pokemon card view', () => {
       const description = screen.getByText(
         'When several of these POKéMON gather, their electricity could build and cause lightning storms.'
       );
-      const type = screen.getByText('electric');
+      const stats = screen.getByText('Stats:');
 
       expect(name).toBeInTheDocument();
       expect(weight).toBeInTheDocument();
       expect(description).toBeInTheDocument();
-      expect(type).toBeInTheDocument();
+      expect(stats).toBeInTheDocument();
     });
   });
-  it('Ensure that clicking the card opens details.', async () => {
+  it('Ensure that clicking the close button hides the component.', async () => {
     render(<PokemonsList pokemons={[mockPokemon]} />);
 
     const pokemon = screen.getByTestId('card');
     fireEvent.click(pokemon);
 
     await waitFor(() => {
-      const details = screen.getByTestId('details');
-      expect(details).toBeInTheDocument();
+      const btn = screen.getByTestId('close');
+      expect(btn).toBeInTheDocument();
+      fireEvent.click(btn);
     });
+
+    expect(screen.queryByTestId('details')).not.toBeInTheDocument();
   });
 });

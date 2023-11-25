@@ -2,10 +2,10 @@ import { Provider } from 'react-redux';
 import { wrapper } from '../store/store';
 import './styles.css';
 import type { AppProps } from 'next/app';
-import Layout from './components/Layout';
+import Layout from '../components/Layout';
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
-import Loading from './components/Loading';
+import Loading from '../components/Loading';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const { store } = wrapper.useWrappedStore(pageProps);

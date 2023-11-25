@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import PokemonPage from './PokemonPage';
-import { mockPokemon } from '../../api/mockPokemon';
+import { mockPokemon } from '../api/mockPokemon';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({

@@ -5,7 +5,7 @@ import PokemonsList from './PokemonsList';
 
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
 
-import { mockPokemon } from '../../api/mockPokemon';
+import { mockPokemon } from '../api/mockPokemon';
 
 describe('Pokemons list ', () => {
   it('Check that an appropriate message is displayed if no cards are present', async () => {

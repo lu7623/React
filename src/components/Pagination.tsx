@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Pokemon } from '../../api/types';
-import { useAppDispatch } from '../../hooks/custom';
-import { perPageSlice } from '../../store/reducers/perPageSlice';
+import { Pokemon } from '../api/types';
+import { useAppDispatch } from '../hooks/custom';
+import { perPageSlice } from '../store/reducers/perPageSlice';
 
 export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
   const router = useRouter();

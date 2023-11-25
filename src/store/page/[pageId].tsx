@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { Pokemon } from '../../api/types';
 import { getDetails, getPokemonPage } from '../../api/getPokemons';
-import PokemonPage from '../components/PokemonPage';
+import PokemonPage from '../../components/PokemonPage';
 
 interface PokemonsProps {
   pokemons: Pokemon[];

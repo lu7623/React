@@ -1,4 +1,4 @@
-import { Pokemon } from '../../api/types';
+import { Pokemon } from '../api/types';
 
 export default function PokemonCard({
   pokemon,
