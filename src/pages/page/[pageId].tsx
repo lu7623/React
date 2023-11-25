@@ -35,7 +35,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     if (typeof listId === 'number' && typeof qty === 'number') {
       store.dispatch(getPokemonsByPage.initiate({ pageNum: listId, qty: qty }));
     }
-
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
     return {
       props: {},
