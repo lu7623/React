@@ -15,6 +15,11 @@ export interface PokemonType {
   url: string;
 }
 
+export interface IQueryParams {
+  pageNum: number;
+  qty: number;
+}
+
 export interface PokemonSpecies {
   name: string;
   url: string;
@@ -67,4 +72,15 @@ export interface Stat {
 export interface PokemonPages {
   pokemons: Pokemon[];
   max: string;
+}
+
+export interface PokemonResults {
+  count: number;
+  next: null;
+  previous: null;
+  results: PokemonType[];
+}
+
+export interface IDescription {
+  flavor_text_entries: PokemonDesc[];
 }

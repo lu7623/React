@@ -1,11 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {
+  FetchBaseQueryError,
+  createApi,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { Pokemon, PokemonDesc, PokemonType } from './types';
-
-interface IQueryParams {
-  pageNum: number;
-  qty: number;
-}
+import {
+  IDescription,
+  IQueryParams,
+  Pokemon,
+  PokemonDesc,
+  PokemonResults,
+} from './types';
 
 export const pokemonAPI = createApi({
   baseQuery: fetchBaseQuery({
@@ -30,15 +35,37 @@ export const pokemonAPI = createApi({
           })[0]
           .flavor_text.replace(/[^a-zA-Z é . , ']/g, ' '),
     }),
-    getPokemonsByPage: builder.query<PokemonType[], IQueryParams>({
-      query: ({ pageNum, qty }) => ({
-        url: '/pokemon',
-        params: {
-          limit: qty,
-          offset: (pageNum - 1) * qty,
-        },
-      }),
-      transformResponse: (resp: { results: PokemonType[] }) => resp.results,
+    getPokemonsByPage: builder.query<Pokemon[], IQueryParams>({
+      async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
+        const pokemonResult = await fetchWithBQ(
+          `pokemon?limit=${_arg.qty}&offset=${(_arg.pageNum - 1) * _arg.qty}`
+        );
+        if (pokemonResult.error)
+          return { error: pokemonResult.error as FetchBaseQueryError };
+        const res = pokemonResult.data as PokemonResults;
+        const result: Pokemon[] = [];
+        for (const r of res.results) {
+          const singlepokemon = await fetchWithBQ(r.url);
+          if (singlepokemon.error)
+            return { error: singlepokemon.error as FetchBaseQueryError };
+          const pokemon = singlepokemon.data as Pokemon;
+          const desc = await fetchWithBQ(pokemon.species.url);
+          if (desc.error) return { error: desc.error as FetchBaseQueryError };
+          const descriptions = desc.data as IDescription;
+          const singleDesc = descriptions.flavor_text_entries
+            .filter((item: PokemonDesc) => {
+              return item.language.name === 'en';
+            })[0]
+            .flavor_text.replace(/[^a-zA-Z é . , ']/g, ' ');
+          const newPokemon = Object.assign({}, pokemon, {
+            description: singleDesc,
+          });
+          result.push(newPokemon);
+        }
+        return result
+          ? { data: result as Pokemon[] }
+          : { error: result as FetchBaseQueryError };
+      },
     }),
   }),
 });

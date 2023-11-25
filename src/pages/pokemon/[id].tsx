@@ -11,10 +11,10 @@ import { useGetPokemonByNameQuery } from '../../api/PokemonApi';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useRouter } from 'next/dist/client/router';
 import PokemonPage from '../../components/PokemonPage';
+import Loading from '../../components/Loading';
 
-export default function Pok() {
+export default function Pokemon() {
   const router = useRouter();
-
   const id = router.query.id;
   const result = useGetPokemonByNameQuery(
     typeof id === 'string' ? id : skipToken,
@@ -22,8 +22,7 @@ export default function Pok() {
       skip: router.isFallback,
     }
   );
-  const { data: pokemon } = result;
-
+  const { data: pokemon, isLoading } = result;
   const desc = useGetPokemonDetailsQuery(
     typeof id === 'string' ? id : skipToken,
     {
@@ -31,13 +30,16 @@ export default function Pok() {
     }
   );
   const { data: description } = desc;
-
   const newPokemon = pokemon
     ? Object.assign({}, pokemon, { description: description })
     : null;
   return (
     <>
-      <PokemonPage pokemons={newPokemon ? [newPokemon] : []} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <PokemonPage pokemons={newPokemon ? [newPokemon] : []} />
+      )}
     </>
   );
 }
@@ -49,9 +51,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(getPokemonByName.initiate(id));
       store.dispatch(getPokemonDetails.initiate(id));
     }
-
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
-
     return {
       props: {},
     };
