@@ -14,7 +14,7 @@ export default function PokemonCard({
         data-testid="card"
         onClick={() => callback(pokemon)}
       >
-        <h2 onClick={() => callback(pokemon)}>{pokemon.name.toUpperCase()}</h2>
+        <h2>{pokemon.name.toUpperCase()}</h2>
         <h3>
           Type:
           {pokemon?.types.map((type) => (

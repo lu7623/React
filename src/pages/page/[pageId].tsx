@@ -9,13 +9,12 @@ import { useRouter } from 'next/dist/client/router';
 import PokemonPage from '../../components/PokemonPage';
 import { IQueryParams } from '../../api/types';
 import Loading from '../../components/Loading';
-import { useAppSelector } from '../../hooks/custom';
 
 export default function Pokemons() {
   const router = useRouter();
-  const { qty } = useAppSelector((state) => state.perPageReducer);
   const listId = parseInt(router.query.pageId as string);
-  const params: IQueryParams = { pageNum: listId, qty: Number(qty) };
+  const qty = parseInt(router.query.qty as string);
+  const params: IQueryParams = { pageNum: listId, qty: qty };
   const result = useGetPokemonsByPageQuery(params);
   const { data: pokemonsResult, isLoading } = result;
   return (

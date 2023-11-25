@@ -15,9 +15,13 @@ export default function SearchForm() {
     if (savedSearch) {
       dispatch(newSearch(savedSearch));
       setSearch(savedSearch);
-      savedSearch === '' ? router.push('/page/1') : router.push(`/`);
+      savedSearch === ''
+        ? router.push('/page/1?qty=20')
+        : router.push(`/pokemon/${savedSearch}`);
     } else {
-      search === '' ? router.push('/page/1') : router.push(`/`);
+      search === ''
+        ? router.push('/page/1?qty=20')
+        : router.push(`/pokemon/${search}`);
     }
   }, []);
 
@@ -29,7 +33,9 @@ export default function SearchForm() {
     event.preventDefault();
 
     dispatch(newSearch(search));
-    search === '' ? router.push('/page/1') : router.push(`/`);
+    search === ''
+      ? router.push('/page/1?qty=20')
+      : router.push(`/pokemon/${search}`);
   };
 
   useEffect(() => {
