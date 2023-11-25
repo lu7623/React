@@ -42,13 +42,6 @@ export interface PokemonDesc {
   };
 }
 
-export interface PokemonRequest {
-  q: string;
-  pokemons: Pokemon[];
-  details?: DetailsRequest;
-  max: string;
-}
-
 export interface DetailsRequest {
   pokemon: Pokemon;
   desc?: string;
