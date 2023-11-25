@@ -16,11 +16,11 @@ const mockRouter = {
 };
 (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
-jest.mock('../../hooks/custom', () => ({
+jest.mock('../hooks/custom', () => ({
   useAppDispatch: () => jest.fn(),
   useAppSelector: () => jest.fn(),
 }));
-jest.mock('../../store/reducers/perPageSlice', () => ({
+jest.mock('../store/reducers/perPageSlice', () => ({
   perPageSlice: {
     actions: { newLimit: jest.fn() },
   },
