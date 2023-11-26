@@ -5,7 +5,6 @@ import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { Provider } from 'react-redux';
 import { setupStore } from '../../store/store';
 jest.mock('next/router', () => jest.requireActual('next-router-mock'));
-import { mockPokemon } from '../../api/mockPokemon';
 import Pokemons from './[pageId]';
 
 const fetchMock = fetch as FetchMock;
@@ -17,7 +16,7 @@ beforeEach(() => {
 describe('SSR page', () => {
   mockRouter.push('/page/1?qty=20');
   it('renders correctly', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify([mockPokemon, mockPokemon]));
+    fetchMock.mockRejectOnce();
     render(
       <Provider store={setupStore()}>
         <Pokemons />

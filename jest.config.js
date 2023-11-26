@@ -27,5 +27,6 @@ module.exports = {
     '/node_modules/',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
+  testPathIgnorePatterns: ['/.next/'],
   setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
 };
