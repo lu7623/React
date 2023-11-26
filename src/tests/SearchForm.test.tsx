@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import SearchForm from './SearchForm';
+import SearchForm from '../components/SearchForm';
 import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({

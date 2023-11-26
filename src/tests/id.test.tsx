@@ -1,12 +1,12 @@
 import { FetchMock } from 'jest-fetch-mock';
 import { render, screen } from '@testing-library/react';
-import Pokemon from './[id]';
+import Pokemon from '../pages/pokemon/[id]';
 import mockRouter from 'next-router-mock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { Provider } from 'react-redux';
-import { setupStore } from '../../store/store';
+import { setupStore } from '../store/store';
 jest.mock('next/router', () => jest.requireActual('next-router-mock'));
-import { mockPokemon } from '../../api/mockPokemon';
+import { mockPokemon } from '../api/mockPokemon';
 
 const fetchMock = fetch as FetchMock;
 fetchMock.enableMocks();

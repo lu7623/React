@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockPokemonsArr } from '../api/mockPokemon';
-import Pagination from './Pagination';
+import Pagination from '../components/Pagination';
 import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
