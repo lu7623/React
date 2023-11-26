@@ -4,7 +4,7 @@ import perPageReducer from './reducers/perPageSlice';
 import { createWrapper } from 'next-redux-wrapper';
 import { pokemonAPI } from '../api/PokemonApi';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   searchReducer,
   perPageReducer,
   [pokemonAPI.reducerPath]: pokemonAPI.reducer,
