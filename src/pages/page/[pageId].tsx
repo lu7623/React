@@ -18,14 +18,14 @@ export default function AllPokemons({ pokemons }: { pokemons: Pokemon[] }) {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const listId = parseInt(context.params?.pageId as string) || 1;
-    const qty = parseInt(context.params?.qty as string) || 20;
+    const qty = parseInt(context.query?.qty as string) || 20;
     let pokemons: Pokemon[] = [];
-    if (typeof listId === 'number' && typeof qty === 'number') {
-      const newPokemons = await store.dispatch(
-        getPokemonsByPage.initiate({ pageNum: listId, qty: qty })
-      );
-      pokemons = newPokemons.data ? newPokemons.data : [];
-    }
+
+    const newPokemons = await store.dispatch(
+      getPokemonsByPage.initiate({ pageNum: listId, qty: qty })
+    );
+    pokemons = newPokemons.data ? newPokemons.data : [];
+
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
     return {
       props: {
