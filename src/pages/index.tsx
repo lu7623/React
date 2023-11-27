@@ -7,5 +7,5 @@ export default function Page() {
     router.push('/page/1?qty=20');
   }, []);
 
-  return <></>;
+  return <div></div>;
 }
