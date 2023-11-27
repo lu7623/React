@@ -18,10 +18,6 @@ export default function SearchForm() {
       savedSearch === ''
         ? router.push('/page/1?qty=20')
         : router.push(`/pokemon/${savedSearch}`);
-    } else {
-      search === ''
-        ? router.push('/page/1?qty=20')
-        : router.push(`/pokemon/${search}`);
     }
   }, []);
 
