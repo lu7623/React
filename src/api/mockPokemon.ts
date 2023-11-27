@@ -23,32 +23,48 @@ export const mockPokemon: Pokemon = {
 };
 
 export const mockPokemonsArr = [
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
-  mockPokemon,
+  {
+    name: 'Pikachu',
+    description:
+      'When several of these POKéMON gather, their electricity could build and cause lightning storms.',
+    id: 1,
+    height: 10,
+    weight: 10,
+    sprites: { front_default: '', back_default: '' },
+    species: { name: '', url: 'https://pokeapi.co/api/v2/pokemon-species/25/' },
+    types: [{ slot: 1, type: { name: 'electric', url: '' } }],
+    stats: [
+      {
+        base_stat: 1,
+        effort: 1,
+        stat: {
+          name: 'hp',
+          url: '',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Bulbasaur',
+    description:
+      'A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.',
+    id: 2,
+    height: 10,
+    weight: 10,
+    sprites: { front_default: '', back_default: '' },
+    species: { name: '', url: 'https://pokeapi.co/api/v2/pokemon-species/25/' },
+    types: [{ slot: 1, type: { name: 'poison', url: '' } }],
+    stats: [
+      {
+        base_stat: 1,
+        effort: 1,
+        stat: {
+          name: 'hp',
+          url: '',
+        },
+      },
+    ],
+  },
 ];
 
 export const pageMockResponce = {
