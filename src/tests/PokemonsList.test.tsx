@@ -5,7 +5,7 @@ import PokemonsList from '../components/PokemonsList';
 
 jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
 
-import { mockPokemon } from '../api/mockPokemon';
+import { mockPokemonsArr } from '../api/mockPokemon';
 
 describe('Pokemons list ', () => {
   it('Check that an appropriate message is displayed if no cards are present', async () => {
@@ -17,12 +17,12 @@ describe('Pokemons list ', () => {
     });
   });
   it('Verify that the component renders the specified number of cards', async () => {
-    render(<PokemonsList pokemons={[mockPokemon, mockPokemon, mockPokemon]} />);
+    render(<PokemonsList pokemons={mockPokemonsArr} />);
 
     await waitFor(() => {
       const pokemonImages = screen.getAllByAltText('pokemon');
 
-      expect(pokemonImages.length).toBe(3);
+      expect(pokemonImages.length).toBe(2);
     });
   });
 });

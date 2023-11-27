@@ -1,29 +1,16 @@
 import {
   getPokemonsByPage,
   getRunningQueriesThunk,
-  useGetPokemonsByPageQuery,
 } from '../../api/PokemonApi';
 
 import { wrapper } from '../../store/store';
-import { useRouter } from 'next/dist/client/router';
 import PokemonPage from '../../components/PokemonPage';
-import { IQueryParams } from '../../api/types';
-import Loading from '../../components/Loading';
+import { Pokemon } from '../../api/types';
 
-export default function Pokemons() {
-  const router = useRouter();
-  const listId = parseInt(router.query.pageId as string);
-  const qty = parseInt(router.query.qty as string);
-  const params: IQueryParams = { pageNum: listId, qty: qty };
-  const result = useGetPokemonsByPageQuery(params);
-  const { data: pokemonsResult, isLoading } = result;
+export default function AllPokemons({ pokemons }: { pokemons: Pokemon[] }) {
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <PokemonPage pokemons={pokemonsResult ? pokemonsResult : []} />
-      )}
+      <PokemonPage pokemons={pokemons} />
     </>
   );
 }
@@ -32,12 +19,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const listId = parseInt(context.params?.pageId as string) || 1;
     const qty = parseInt(context.params?.qty as string) || 20;
+    let pokemons: Pokemon[] = [];
     if (typeof listId === 'number' && typeof qty === 'number') {
-      store.dispatch(getPokemonsByPage.initiate({ pageNum: listId, qty: qty }));
+      const newPokemons = await store.dispatch(
+        getPokemonsByPage.initiate({ pageNum: listId, qty: qty })
+      );
+      pokemons = newPokemons.data ? newPokemons.data : [];
     }
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
     return {
-      props: {},
+      props: {
+        pokemons: pokemons,
+      },
     };
   }
 );
