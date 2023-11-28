@@ -7,16 +7,14 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Loading from '../components/Loading';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  const { store } = wrapper.useWrappedStore(pageProps);
+export default function MyApp({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const start = () => {
-      console.log('start');
       setLoading(true);
     };
     const end = () => {
-      console.log('finished');
       setLoading(false);
     };
     Router.events.on('routeChangeStart', start);
@@ -31,7 +29,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Provider store={store}>
-        <Layout>{loading ? <Loading /> : <Component {...pageProps} />}</Layout>
+        <Layout>
+          {loading ? <Loading /> : <Component {...props.pageProps} />}
+        </Layout>
       </Provider>
     </>
   );
