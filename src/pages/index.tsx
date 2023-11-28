@@ -37,12 +37,19 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const newPokemondesc = await store.dispatch(
         getPokemonDetails.initiate(search)
       );
-      const searchPokemon = newPokemon.data
-        ? Object.assign({}, newPokemon.data, {
-            description: newPokemondesc.data,
-          })
-        : null;
+      const searchPokemon =
+        newPokemon.data && newPokemondesc.data
+          ? Object.assign({}, newPokemon.data, {
+              description: newPokemondesc.data,
+            })
+          : null;
       pokemons = searchPokemon ? [searchPokemon] : [];
+    }
+    if (!search && !page && !qty) {
+      const newPokemons = await store.dispatch(
+        getPokemonsByPage.initiate({ pageNum: 1, qty: 20 })
+      );
+      pokemons = newPokemons.data ? newPokemons.data : [];
     }
 
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
