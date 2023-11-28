@@ -1,6 +1,5 @@
 import {
   getPokemonByName,
-  getPokemonDetails,
   getPokemonsByPage,
   getRunningQueriesThunk,
 } from '../api/PokemonApi';
@@ -34,16 +33,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const newPokemon = await store.dispatch(
         getPokemonByName.initiate(search)
       );
-      const newPokemondesc = await store.dispatch(
-        getPokemonDetails.initiate(search)
-      );
-      const searchPokemon =
-        newPokemon.data && newPokemondesc.data
-          ? Object.assign({}, newPokemon.data, {
-              description: newPokemondesc.data,
-            })
-          : null;
-      pokemons = searchPokemon ? [searchPokemon] : [];
+      pokemons = newPokemon.data ? [newPokemon.data] : [];
     }
     if (!search && !page && !qty) {
       const newPokemons = await store.dispatch(
