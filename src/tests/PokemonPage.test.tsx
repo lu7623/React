@@ -6,7 +6,7 @@ import { mockPokemon } from '../api/mockPokemon';
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
     query: {
-      pageId: '1',
+      page: '1',
       qty: '20',
     },
   }),

@@ -16,8 +16,12 @@ export default function SearchForm() {
       dispatch(newSearch(savedSearch));
       setSearch(savedSearch);
       savedSearch === ''
-        ? router.push('/page/1?qty=20')
-        : router.push(`/pokemon/${savedSearch}`);
+        ? router.push('/?page=1&qty=20')
+        : router.push(`/?search=${savedSearch}`);
+    } else {
+      searchStr === ''
+        ? router.push('/?page=1&qty=20')
+        : router.push(`/?search=${searchStr}`);
     }
   }, []);
 
@@ -27,11 +31,10 @@ export default function SearchForm() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     dispatch(newSearch(search));
     search === ''
-      ? router.push('/page/1?qty=20')
-      : router.push(`/pokemon/${search}`);
+      ? router.push('/?page=1&qty=20')
+      : router.push(`/?search=${search}`);
   };
 
   useEffect(() => {

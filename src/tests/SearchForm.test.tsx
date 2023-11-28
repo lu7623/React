@@ -10,7 +10,7 @@ jest.mock('next/router', () => ({
 const mockRouter = {
   push: jest.fn(),
   query: {
-    pageId: '1',
+    page: '1',
     qty: '20',
   },
 };

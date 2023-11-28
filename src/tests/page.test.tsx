@@ -5,10 +5,10 @@ import { Provider } from 'react-redux';
 import { setupStore } from '../store/store';
 jest.mock('next/router', () => jest.requireActual('next-router-mock'));
 import { mockPokemonsArr } from '../api/mockPokemon';
-import AllPokemons from '../pages/page/[pageId]';
+import AllPokemons from '../pages/index';
 
-describe('Single pokemon page', () => {
-  mockRouter.push('/pokemon/2');
+describe('SSR pokemon page', () => {
+  mockRouter.push('/?page=1&qty=20');
   it('renders correctly', async () => {
     render(
       <Provider store={setupStore()}>

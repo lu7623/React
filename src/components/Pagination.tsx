@@ -8,7 +8,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { newLimit } = perPageSlice.actions;
-  const pageId = router.query.pageId;
+  const pageId = router.query.page;
   const qty = router.query.qty;
   const [value, setValue] = useState(qty);
   const maxPage = Math.ceil(1200 / Number(value));
@@ -21,7 +21,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
   function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
     dispatch(newLimit(event.target.value));
-    router.push(`/page/1?qty=${event.target.value}`);
+    router.push(`/?page=1&qty=${event.target.value}`);
   }
 
   return (
@@ -31,7 +31,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
           <button
             disabled={prevPage === 0 || pokemons.length === 1}
             className="navBtn"
-            onClick={() => router.push(`/page/${prevPage}?qty=${value}`)}
+            onClick={() => router.push(`/?page=${prevPage}&qty=${value}`)}
           >
             prev
           </button>
@@ -39,7 +39,7 @@ export default function Pagination({ pokemons }: { pokemons: Pokemon[] }) {
           <button
             disabled={!nextPage}
             className="navBtn"
-            onClick={() => router.push(`/page/${nextPage}?qty=${value}`)}
+            onClick={() => router.push(`/?page=${nextPage}&qty=${value}`)}
           >
             next
           </button>
