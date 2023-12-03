@@ -42,7 +42,7 @@ export const schema = yup.object().shape({
     .string()
     .required('Please select your gender')
     .oneOf(['male', 'female', 'other']),
-  // country: yup.string().oneOf(countriesArr).required('Please select your country'),
+  country: yup.string().required('Please select your country'),
   accept: yup
     .bool()
     .required('You have to accept terms and conditions to coninue')

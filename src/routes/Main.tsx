@@ -28,6 +28,7 @@ export default function Main() {
                 <p>Email: {d.email}</p>
                 <p>Password: {d.password}</p>
                 <p>Gender: {d.gender}</p>
+                <p>Country: {d.country}</p>
               </div>
             );
           })}

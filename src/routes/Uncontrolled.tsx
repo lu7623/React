@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useAppDispatch } from '../redux/hooks';
 import { formDataSlice } from '../redux/reducers/formDataSlice';
 import { IFormInput } from '../utils/types';
 import { schema } from '../utils/validationSchema';
 import { ValidationError } from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
+import { countriesArr } from '../utils/countries';
 
 type FormElements = {
   age: HTMLInputElement;
@@ -14,11 +15,14 @@ type FormElements = {
   password: HTMLInputElement;
   confirm: HTMLInputElement;
   accept: HTMLInputElement;
+  country: HTMLInputElement;
 };
 
 export default function Uncontrolled() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [countrySuggestions, setCountrySuggestions] = useState<string[]>([]);
+  const ref = useRef<HTMLInputElement>(null);
   const { newData } = formDataSlice.actions;
 
   const [validErrs, setValidErrs] = useState<string[]>([]);
@@ -32,6 +36,7 @@ export default function Uncontrolled() {
       name: formElements.name.value,
       password: formElements.password.value,
       confirm: formElements.confirm.value,
+      country: formElements.country.value,
       accept: formElements.accept.checked,
     };
     let result;
@@ -47,6 +52,15 @@ export default function Uncontrolled() {
       dispatch(newData(formData));
       setTimeout(() => navigate('/'), 1000);
     }
+  };
+  const searchCountry = () => {
+    setCountrySuggestions(
+      countriesArr.filter((c) =>
+        c
+          .toLowerCase()
+          .startsWith(ref.current ? ref.current.value.trim().toLowerCase() : '')
+      )
+    );
   };
   return (
     <div className="flex justify-center items-center flex-col w-screen">
@@ -117,7 +131,7 @@ export default function Uncontrolled() {
             name="confirm"
             className=" bg-slate-200 w-full"
           />
-          {validErrs.find((x) => x.includes('match')) && (
+          {validErrs.find((x) => x.includes('confirm')) && (
             <p className=" text-red-700 text-xs">
               {validErrs.find((x) => x.includes('confirm'))}
             </p>
@@ -144,6 +158,35 @@ export default function Uncontrolled() {
             </p>
           )}
         </div>
+        <div className="w-full">
+          <label className="mr-4">Select country:</label>
+          <input
+            ref={ref}
+            className=" bg-slate-200 w-full"
+            onChange={searchCountry}
+            name="country"
+          />
+          <ul>
+            {countrySuggestions?.map((c) => (
+              <li
+                className=" w-full bg-slate-200 hover:bg-slate-50 cursor-pointer"
+                key={c}
+                onClick={() => {
+                  if (!ref.current) throw Error('ref is not assigned');
+                  ref.current.value = c;
+                  setCountrySuggestions([]);
+                }}
+              >
+                {c}
+              </li>
+            ))}
+          </ul>
+          {validErrs.find((x) => x.includes('country')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('country'))}
+            </p>
+          )}
+        </div>
         <div className=" w-full">
           <div className="flex">
             <input
@@ -154,7 +197,7 @@ export default function Uncontrolled() {
             />
             <label htmlFor="accept">Accept terms and conditions</label>
           </div>
-          {validErrs.find((x) => x.includes('accet')) && (
+          {validErrs.find((x) => x.includes('accept')) && (
             <p className=" text-red-700 text-xs">
               {validErrs.find((x) => x.includes('accept'))}
             </p>

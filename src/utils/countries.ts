@@ -209,3 +209,5 @@ Virgin Islands (US)
 Yemen
 Zambia
 Zimbabwe`;
+
+export const countriesArr = CountriesList.split(/\r?\n/);

@@ -5,10 +5,14 @@ import { IFormInput } from '../utils/types';
 import { useAppDispatch } from '../redux/hooks';
 import { formDataSlice } from '../redux/reducers/formDataSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { countriesArr } from '../utils/countries';
 
 export default function HookForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [countrySuggestions, setCountrySuggestions] = useState<string[]>();
+  const [countryInput, setCountryInput] = useState('');
   const { newData } = formDataSlice.actions;
   const {
     register,
@@ -23,7 +27,15 @@ export default function HookForm() {
     dispatch(newData(data));
     setTimeout(() => navigate('/'), 1000);
   };
-
+  const searchCountry = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newCountrySearch = e.target.value;
+    setCountryInput(newCountrySearch);
+    setCountrySuggestions(
+      countriesArr.filter((c) =>
+        c.toLowerCase().startsWith(newCountrySearch.trim().toLowerCase())
+      )
+    );
+  };
   return (
     <>
       <div className="flex justify-center items-center flex-col w-screen">
@@ -84,12 +96,38 @@ export default function HookForm() {
               <p className=" text-red-700 text-xs">{errors.gender.message}</p>
             )}
           </div>
+          <div className="w-full">
+            <label className="mr-4">Select country:</label>
+            <input
+              {...register('country')}
+              className=" bg-slate-200 w-full"
+              onChange={searchCountry}
+              value={countryInput}
+            />
+            <ul>
+              {countrySuggestions?.map((c) => (
+                <li
+                  className=" w-full bg-slate-200 hover:bg-slate-50 cursor-pointer"
+                  key={c}
+                  onClick={() => {
+                    setCountryInput(c);
+                    setCountrySuggestions([]);
+                  }}
+                >
+                  {c}
+                </li>
+              ))}
+            </ul>
+            {errors.country && (
+              <p className=" text-red-700 text-xs">{errors.country.message}</p>
+            )}
+          </div>
           <div className="w-full ">
             <div className="flex">
-              <label htmlFor="acceptTerms" className="mr-4">
+              <input type="checkbox" id="acceptTerms" {...register('accept')} />
+              <label htmlFor="acceptTerms" className="ml-4">
                 Accept terms and conditions
               </label>
-              <input type="checkbox" id="acceptTerms" {...register('accept')} />
             </div>
             {errors.accept && (
               <p className=" text-red-700 text-xs w-full">
