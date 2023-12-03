@@ -221,7 +221,7 @@ export default function Uncontrolled() {
             className="px-2 mx-2 rounded"
             type="file"
             id="file"
-            accept=".png, .jpeg"
+            accept=".png, .jpeg, .jpg"
           />
 
           {validErrs.find((x) => x.includes('file')) && (

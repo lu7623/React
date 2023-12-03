@@ -47,22 +47,25 @@ export const schema = yup.object().shape({
     .mixed<FileList>()
     .test(
       'fileType',
-      'Invalid file type. Only PNG or JPEG allowed.',
+      'Invalid file type, please choose png or jpg.',
       (value) => {
         if (value && value[0]) {
           const file = value![0];
 
           return (
-            value && (file.type === 'image/png' || file.type === 'image/jpeg')
+            value &&
+            (file.type === 'image/png' ||
+              file.type === 'image/jpeg' ||
+              file.type === 'image/jpg')
           );
         }
       }
     )
-    .test('fileSize', 'File size too large. Maximum size is 10MB.', (value) => {
+    .test('fileSize', 'File is too large', (value) => {
       if (value && value[0]) {
         const file = value![0];
 
-        return value && file.size <= 10485760;
+        return value && file.size <= 2000000;
       }
     }),
   accept: yup

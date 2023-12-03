@@ -163,7 +163,7 @@ export default function HookForm() {
             <input
               type="file"
               id="file"
-              accept=".png, .jpeg"
+              accept=".png, .jpeg, .jpg"
               {...register('file')}
             />
 
