@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
-import SelectCountry from '../components/SelectCountry';
 import { useAppSelector } from '../redux/hooks';
 
 export default function Main() {
   const data = useAppSelector((state) => state.formDataReducer);
   return (
     <>
-      {' '}
       <div className="flex w-screen flex-col items-center justify-start">
         <h1>React Forms</h1>
         <div className="flex gap-5">
@@ -34,8 +32,6 @@ export default function Main() {
             );
           })}
         </div>
-
-        <SelectCountry />
       </div>
     </>
   );
