@@ -8,12 +8,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { countriesArr } from '../utils/countries';
 
+export const getStrength = (n: number) => {
+  if (n < 4) return <span className=" text-red-600 font-bold">weak</span>;
+  else if (n < 8)
+    return <span className=" text-yellow-600 font-bold">medium</span>;
+  else return <span className=" text-green-600 font-bold">strong</span>;
+};
+
 export default function HookForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [countrySuggestions, setCountrySuggestions] = useState<string[]>();
   const [countryInput, setCountryInput] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const { newData } = formDataSlice.actions;
+
   const {
     register,
     handleSubmit,
@@ -67,11 +76,18 @@ export default function HookForm() {
           </div>
           <div className=" w-full">
             <label className="mr-4">Password:</label>
-            <input {...register('password')} className=" bg-slate-200 w-full" />
+            <input
+              {...register('password')}
+              onBlur={(e) => setPasswordStrength(e.target.value.length)}
+              className=" bg-slate-200 w-full"
+            />
             {errors.password && (
               <p className=" text-red-700 text-xs">{errors.password.message}</p>
             )}
           </div>
+          {passwordStrength > 0 && (
+            <p>Password strength: {getStrength(passwordStrength)}</p>
+          )}
           <div className="w-full">
             <label className="mr-4">Confirm password:</label>
             <input {...register('confirm')} className=" bg-slate-200 w-full" />

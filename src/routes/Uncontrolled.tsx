@@ -6,6 +6,7 @@ import { schema } from '../utils/validationSchema';
 import { ValidationError } from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { countriesArr } from '../utils/countries';
+import { getStrength } from './HookForm';
 
 type FormElements = {
   age: HTMLInputElement;
@@ -24,7 +25,7 @@ export default function Uncontrolled() {
   const [countrySuggestions, setCountrySuggestions] = useState<string[]>([]);
   const ref = useRef<HTMLInputElement>(null);
   const { newData } = formDataSlice.actions;
-
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const [validErrs, setValidErrs] = useState<string[]>([]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -116,6 +117,7 @@ export default function Uncontrolled() {
             id="password"
             name="password"
             className=" bg-slate-200 w-full"
+            onBlur={(e) => setPasswordStrength(e.target.value.length)}
           />
           {validErrs.find((x) => x.includes('password')) && (
             <p className=" text-red-700 text-xs">
@@ -123,6 +125,9 @@ export default function Uncontrolled() {
             </p>
           )}
         </div>
+        {passwordStrength > 0 && (
+          <p>Password strength: {getStrength(passwordStrength)}</p>
+        )}
         <div className=" w-full">
           <label htmlFor="confirm">Confirm password:</label>
           <input
