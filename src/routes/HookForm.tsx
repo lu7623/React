@@ -20,13 +20,13 @@ export default function HookForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [countrySuggestions, setCountrySuggestions] = useState<string[]>();
-  const [countryInput, setCountryInput] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
   const { newData } = formDataSlice.actions;
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IFormInput>({
     resolver: yupResolver(schema),
@@ -56,7 +56,6 @@ export default function HookForm() {
   };
   const searchCountry = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCountrySearch = e.target.value;
-    setCountryInput(newCountrySearch);
     setCountrySuggestions(
       countriesArr.filter((c) =>
         c.toLowerCase().startsWith(newCountrySearch.trim().toLowerCase())
@@ -136,7 +135,6 @@ export default function HookForm() {
               {...register('country')}
               className=" bg-slate-200 w-full"
               onChange={searchCountry}
-              value={countryInput}
             />
             <ul>
               {countrySuggestions?.map((c) => (
@@ -144,7 +142,7 @@ export default function HookForm() {
                   className=" w-full bg-slate-200 hover:bg-slate-50 cursor-pointer"
                   key={c}
                   onClick={() => {
-                    setCountryInput(c);
+                    setValue('country', c);
                     setCountrySuggestions([]);
                   }}
                 >
