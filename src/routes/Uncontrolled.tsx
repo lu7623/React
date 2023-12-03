@@ -1,47 +1,175 @@
-import { useRef } from 'react';
+import { useState } from 'react';
+import { useAppDispatch } from '../redux/hooks';
+import { formDataSlice } from '../redux/reducers/formDataSlice';
+import { IFormInput } from '../utils/types';
+import { schema } from '../utils/validationSchema';
+import { ValidationError } from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
+
+type FormElements = {
+  age: HTMLInputElement;
+  email: HTMLInputElement;
+  gender: HTMLInputElement;
+  name: HTMLInputElement;
+  password: HTMLInputElement;
+  confirm: HTMLInputElement;
+  accept: HTMLInputElement;
+};
 
 export default function Uncontrolled() {
-  const nameInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { newData } = formDataSlice.actions;
 
-  function handleSubmit() {
-    alert(`Name: ${nameInputRef.current ? nameInputRef.current.value : ''}`);
-  }
-
+  const [validErrs, setValidErrs] = useState<string[]>([]);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formElements = e.target as unknown as FormElements;
+    const formData: IFormInput = {
+      age: Number(formElements.age.value),
+      email: formElements.email.value,
+      gender: formElements.gender.value,
+      name: formElements.name.value,
+      password: formElements.password.value,
+      confirm: formElements.confirm.value,
+      accept: formElements.accept.checked,
+    };
+    let result;
+    try {
+      result = schema.validateSync(formData, { abortEarly: false });
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        error.errors.forEach((x) => console.log(x));
+        setValidErrs(error.errors);
+      }
+    }
+    if (result) {
+      dispatch(newData(formData));
+      setTimeout(() => navigate('/'), 1000);
+    }
+  };
   return (
-    <div className="App">
-      <h3>Uncontrolled Component</h3>
-      <form onSubmit={handleSubmit}>
-        <label>Name :</label>
-        <input type="text" name="name" ref={nameInputRef} />
-        <button type="submit">Submit</button>
+    <div className="flex justify-center items-center flex-col w-screen">
+      <h2 className=" text-2xl mb-5">Uncontrolled component</h2>
+
+      <form onSubmit={handleSubmit} className="flex flex-col w-1/3 gap-6 mb-10">
+        <div className=" w-full">
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            className=" bg-slate-200 w-full"
+          />
+          {validErrs.find((x) => x.includes('name')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('name'))}
+            </p>
+          )}
+        </div>
+        <div className=" w-full">
+          <label htmlFor="age">Age:</label>
+          <input
+            type="text"
+            name="age"
+            id="age"
+            className=" bg-slate-200 w-full"
+          />
+          {validErrs.find((x) => x.includes('age')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('age'))}
+            </p>
+          )}
+        </div>{' '}
+        <div className=" w-full">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            className=" bg-slate-200 w-full"
+          />
+          {validErrs.find((x) => x.includes('email')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('email'))}
+            </p>
+          )}
+        </div>
+        <div className=" w-full">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            className=" bg-slate-200 w-full"
+          />
+          {validErrs.find((x) => x.includes('password')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('password'))}
+            </p>
+          )}
+        </div>
+        <div className=" w-full">
+          <label htmlFor="confirm">Confirm password:</label>
+          <input
+            type="text"
+            id="confirm"
+            name="confirm"
+            className=" bg-slate-200 w-full"
+          />
+          {validErrs.find((x) => x.includes('match')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('confirm'))}
+            </p>
+          )}
+        </div>
+        <div className=" w-full">
+          <label htmlFor="gender" className="mr-4">
+            Gender Selection
+          </label>
+          <select id="gender">
+            <option value="female" className=" bg-slate-200">
+              female
+            </option>
+            <option value="male" className=" bg-slate-200">
+              male
+            </option>
+            <option value="other" className=" bg-slate-200">
+              other
+            </option>
+          </select>
+          {validErrs.find((x) => x.includes('gender')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('gender'))}
+            </p>
+          )}
+        </div>
+        <div className=" w-full">
+          <div className="flex">
+            <input
+              type="checkbox"
+              id="accept"
+              name="accept"
+              className=" mr-5"
+            />
+            <label htmlFor="accept">Accept terms and conditions</label>
+          </div>
+          {validErrs.find((x) => x.includes('accet')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('accept'))}
+            </p>
+          )}
+        </div>
+        <div className=" w-full flex justify-center">
+          <input
+            type="submit"
+            className=" disabled:bg-gray-500 bg-slate-700 text-white w-32 rounded-md px-4 py-2"
+            value="Submit"
+          />
+        </div>
       </form>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input type="text" name="name" id="name" />
-        <label htmlFor="age">Age:</label>
-        <input type="text" name="age" id="age" />
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" />
-        <label htmlFor="password">Password:</label>
-        <input type="password" id="password" name="password" />
-        <label htmlFor="confirm">Confirm password:</label>
-        <input type="password" id="confirm" name="confirm" />
-        <label htmlFor="gender">Gender Selection</label>
-        <select id="gender">
-          <option value="female">female</option>
-          <option value="male">male</option>
-          <option value="other">other</option>
-        </select>
-        <input type="checkbox" id="acceptTerms" name="acceptTerms" />
-        <label htmlFor="acceptTerms">Accept terms and conditions</label>
-        <label htmlFor="picture">Choose image to upload (PNG, JPG)</label>
-        <input
-          type="file"
-          id="picture"
-          accept="image/png, image/jpeg, image/jpg"
-        />
-        <button type="submit">Submit</button>
-      </form>
+
+      <Link to="/">Go back</Link>
     </div>
   );
 }

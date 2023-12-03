@@ -7,27 +7,37 @@ export const schema = yup.object().shape({
   name: yup
     .string()
     .required('Please enter your name')
-    .uppercase('Name should be uppercase'),
+    .test(
+      'firstUppercase',
+      'First letter of name should be uppercase',
+      function (name: string) {
+        return !!name.trim().slice(0, 1).match(/[A-Z]/)?.length;
+      }
+    ),
   age: yup
     .number()
-    .positive('Age is not valid')
-    .integer('Age is not valid')
-    .required('Please enter your age'),
+    .positive('Invalid age')
+    .integer('Invalid age')
+    .required('Please enter your age')
+    .typeError('Invalid age'),
   email: yup
     .string()
-    .email('E-mail is not valid')
+    .email('Invalid email')
     .required('Please enter your email'),
   password: yup
     .string()
-    .required()
+    .required('Please enter your password')
     .matches(/[0-9]/, getCharacterValidationError('digit'))
     .matches(/[a-z]/, getCharacterValidationError('lowercase'))
     .matches(/[A-Z]/, getCharacterValidationError('special charcter'))
     .matches(/[\W|_/g]/, getCharacterValidationError('special caracter')),
   confirm: yup
     .string()
-    .required('Please re-type your password')
-    .oneOf([yup.ref('password')], 'Passwords does not match'),
+    .required('Please re-type to confirm')
+    .oneOf(
+      [yup.ref('password')],
+      'Passwords does not match, please re-type to confirm'
+    ),
   gender: yup
     .string()
     .required('Please select your gender')
