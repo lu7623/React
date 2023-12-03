@@ -16,9 +16,9 @@ export interface IFormInput {
   email: string;
   password: string;
   confirm: string;
-  gender: GenderEnum;
-  country: Countries;
-  accept: boolean;
+  gender: string;
+  //country: string;
+  accept: NonNullable<boolean | undefined>;
 }
 
 export const countriesArr = CountriesList.split(/\r?\n/);

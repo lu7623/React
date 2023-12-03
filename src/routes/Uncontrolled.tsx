@@ -9,7 +9,6 @@ export default function Uncontrolled() {
 
   return (
     <div className="App">
-      <h1 className="geeks">GeeksForGeeks</h1>
       <h3>Uncontrolled Component</h3>
       <form onSubmit={handleSubmit}>
         <label>Name :</label>

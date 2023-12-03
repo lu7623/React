@@ -5,6 +5,8 @@ import './index.css';
 import Main from './routes/Main';
 import Uncontrolled from './routes/Uncontrolled';
 import HookForm from './routes/HookForm';
+import { Provider } from 'react-redux';
+import { setupStore } from './redux/store';
 
 const router = createBrowserRouter([
   {
@@ -21,8 +23,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+const store = setupStore();
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

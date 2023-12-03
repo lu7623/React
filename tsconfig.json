@@ -24,6 +24,6 @@
     "**/*.tsx",
     "**/**/*.ts",
     "**/**/*.tsx"
-, "src/utils/autocomplete.ts", "src/components/SelectCountry.tsx", "src/routes/Main.jsx"  ],
+, "src/utils/autocomplete.ts", "src/components/SelectCountry.tsx", "src/routes/Main.tsx"  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

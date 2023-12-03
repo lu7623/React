@@ -1,13 +1,14 @@
 import { HiSearch } from 'react-icons/hi';
 import useAutoComplete from '../utils/autocomplete';
-import { CountriesList } from '../utils/countries';
 import { CountryOptions } from '../utils/types';
-
-const Options: CountryOptions[] = CountriesList.split(/\r?\n/).map((p, i) => {
-  return { value: i, label: p };
-});
+import { useAppSelector } from '../redux/hooks';
 
 export default function SelectCountry() {
+  const { allCountries } = useAppSelector((state) => state.countriesReducer);
+  const Options: CountryOptions[] = allCountries.split(/\r?\n/).map((p, i) => {
+    return { value: i, label: p };
+  });
+
   const { bindInput, bindOptions, bindOption, suggestions, selectedIndex } =
     useAutoComplete({
       onChange: (value) => console.log(value),
@@ -26,7 +27,6 @@ export default function SelectCountry() {
           className="flex-grow px-1 outline-none"
           {...bindInput}
         />
-        <div className="w-4 h-4 border-2 border-dashed rounded-full border-slate-500 animate-spin"></div>
       </div>
       <ul
         {...bindOptions}
