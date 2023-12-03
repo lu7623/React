@@ -7,6 +7,7 @@ import { formDataSlice } from '../redux/reducers/formDataSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { countriesArr } from '../utils/countries';
+import { convertBase64 } from '../utils/filesize';
 
 export const getStrength = (n: number) => {
   if (n < 4) return <span className=" text-red-600 font-bold">weak</span>;
@@ -32,8 +33,25 @@ export default function HookForm() {
     mode: 'onChange',
     reValidateMode: 'onSubmit',
   });
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    dispatch(newData(data));
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const fileStr = data.file
+      ? ((await convertBase64(data.file[0])) as string)
+      : '';
+    const formData = Object.assign(
+      {},
+      {
+        name: data.name,
+        age: data.age,
+        password: data.password,
+        accept: data.accept,
+        confirm: data.confirm,
+        country: data.country,
+        email: data.email,
+        gender: data.gender,
+        file: fileStr,
+      }
+    );
+    dispatch(newData(formData));
     setTimeout(() => navigate('/'), 1000);
   };
   const searchCountry = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,6 +155,19 @@ export default function HookForm() {
             {errors.country && (
               <p className=" text-red-700 text-xs">{errors.country.message}</p>
             )}
+          </div>
+          <div>
+            <label className="text-white " htmlFor="file">
+              Load file:
+            </label>
+            <input
+              type="file"
+              id="file"
+              accept=".png, .jpeg"
+              {...register('file')}
+            />
+
+            <p>{errors.file?.message}</p>
           </div>
           <div className="w-full ">
             <div className="flex">

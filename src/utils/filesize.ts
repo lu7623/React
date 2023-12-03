@@ -1,4 +1,4 @@
-export default function returnFileSize(number: number) {
+export function returnFileSize(number: number) {
   if (number < 1024) {
     return `${number} bytes`;
   } else if (number >= 1024 && number < 1048576) {
@@ -6,4 +6,19 @@ export default function returnFileSize(number: number) {
   } else if (number >= 1048576) {
     return `${(number / 1048576).toFixed(1)} MB`;
   }
+}
+
+export function convertBase64(file: File) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
 }

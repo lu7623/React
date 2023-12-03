@@ -43,6 +43,28 @@ export const schema = yup.object().shape({
     .required('Please select your gender')
     .oneOf(['male', 'female', 'other']),
   country: yup.string().required('Please select your country'),
+  file: yup
+    .mixed<FileList>()
+    .test(
+      'fileType',
+      'Invalid file type. Only PNG or JPEG allowed.',
+      (value) => {
+        if (value && value[0]) {
+          const file = value![0];
+
+          return (
+            value && (file.type === 'image/png' || file.type === 'image/jpeg')
+          );
+        }
+      }
+    )
+    .test('fileSize', 'File size too large. Maximum size is 10MB.', (value) => {
+      if (value && value[0]) {
+        const file = value![0];
+
+        return value && file.size <= 10485760;
+      }
+    }),
   accept: yup
     .bool()
     .required('You have to accept terms and conditions to coninue')

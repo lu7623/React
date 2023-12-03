@@ -7,6 +7,7 @@ import { ValidationError } from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { countriesArr } from '../utils/countries';
 import { getStrength } from './HookForm';
+import { convertBase64 } from '../utils/filesize';
 
 type FormElements = {
   age: HTMLInputElement;
@@ -17,6 +18,7 @@ type FormElements = {
   confirm: HTMLInputElement;
   accept: HTMLInputElement;
   country: HTMLInputElement;
+  file: HTMLInputElement;
 };
 
 export default function Uncontrolled() {
@@ -30,6 +32,9 @@ export default function Uncontrolled() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formElements = e.target as unknown as FormElements;
+    if (!formElements.file.files) throw new Error('None files attached');
+    const fileFromInput = formElements.file.files[0];
+    const base64 = await convertBase64(fileFromInput);
     const formData: IFormInput = {
       age: Number(formElements.age.value),
       email: formElements.email.value,
@@ -39,6 +44,7 @@ export default function Uncontrolled() {
       confirm: formElements.confirm.value,
       country: formElements.country.value,
       accept: formElements.accept.checked,
+      file: formElements.file.files,
     };
     let result;
     try {
@@ -50,6 +56,20 @@ export default function Uncontrolled() {
       }
     }
     if (result) {
+      const formData = Object.assign(
+        {},
+        {
+          name: result.name,
+          age: result.age,
+          password: result.password,
+          accept: result.accept,
+          confirm: result.confirm,
+          country: result.country,
+          email: result.email,
+          gender: result.gender,
+          file: base64 as string,
+        }
+      );
       dispatch(newData(formData));
       setTimeout(() => navigate('/'), 1000);
     }
@@ -189,6 +209,24 @@ export default function Uncontrolled() {
           {validErrs.find((x) => x.includes('country')) && (
             <p className=" text-red-700 text-xs">
               {validErrs.find((x) => x.includes('country'))}
+            </p>
+          )}
+        </div>
+        <div>
+          <label className="text-white " htmlFor="file">
+            Load file:
+          </label>
+          <input
+            name="file"
+            className="px-2 mx-2 rounded"
+            type="file"
+            id="file"
+            accept=".png, .jpeg"
+          />
+
+          {validErrs.find((x) => x.includes('file')) && (
+            <p className=" text-red-700 text-xs">
+              {validErrs.find((x) => x.includes('file'))}{' '}
             </p>
           )}
         </div>

@@ -29,6 +29,7 @@ export default function Main() {
                 <p>Password: {d.password}</p>
                 <p>Gender: {d.gender}</p>
                 <p>Country: {d.country}</p>
+                <img className=" w-48 " src={d.file} alt={d.name} />
               </div>
             );
           })}

@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormInput } from '../../utils/types';
+import { IData } from '../../utils/types';
 
 export interface FormData {
-  data: IFormInput | null;
+  data: IData | null;
 }
 
 export const formDataSlice = createSlice({
   name: 'formData',
-  initialState: [] as IFormInput[],
+  initialState: [] as IData[],
   reducers: {
-    newData(state, action: PayloadAction<IFormInput>) {
+    newData(state, action: PayloadAction<IData>) {
       state.push(action.payload);
     },
   },
