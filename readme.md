@@ -1,27 +1,25 @@
-# React + TypeScript + Vite
+<h1>React-pokemons-app</h1>
+<h3>Web application build with Vite and React, working with Pokemons API https://pokeapi.co/api/v2/pokemon</h3>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img width=500px src="https://github.com/lu7623/React-pokemons-app/assets/111243748/75bec284-b811-4c75-ae6c-2cf4f0bdd261">
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+<h3>Features:</h3>
+<ul>
+  <li>Search pokemons by name or number;</li>
+  <li>On emty search show all items list;</li>
+  <li>Pagination implemented for existing items;</li>
+  <li>User may change the number of items shown per page;</li>
+  <li>On card click show detailes for a specific pokemon;</li>
+  <li>Save previous search term in the local storage.</li>
+</ul>
+<h3>Stack used:</h3>
+<ul>
+  <li>Typescript</li>
+  <li>React</li>
+  <li>Vite</li>
+  <li>Jest</li>
+  <li>Husky</li>
+  <li>ESlint</li>
+</ul>
+Production deployment:
+https://graphiql-app-gamma.vercel.app/
