@@ -21,5 +21,7 @@
   <li>Husky</li>
   <li>ESlint</li>
 </ul>
+<p>
 Production deployment:
-https://graphiql-app-gamma.vercel.app/
+https://pokemons-api-react.netlify.app/
+</p>
